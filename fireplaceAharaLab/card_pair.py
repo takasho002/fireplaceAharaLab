@@ -7,6 +7,7 @@ from fireplace.player import Player
 import copy
 from fireplace.exceptions import GameOver
 from utils import Agent
+from agent_AngryCat import AngryCatAI
 
 def investigate_card_pair( onlyresult=0):
 	card_class = CardClass.HUNTER
@@ -23,69 +24,72 @@ def investigate_card_pair( onlyresult=0):
 	nonvanilla2 = 'EX1_332'#random.choice(nonVanillas).id#
 	#古代の番人：EX1_045:攻撃できない。
 	#沈黙:EX1_332:ミニオン1体を沈黙させる
-
+	#player.py line 175をコメントアウトすること。
 	print(" specific cards : %r%r"%(nonvanilla1, nonvanilla2))
-	for repeat in range(50):
-		print("    GAME %d"%repeat,end="  -> ")
-		#set decks and players
-		deck1=[]
-		position=random.randint(1,7)
-		for i in range(position):
-			deck1.append((random.choice(vanillas)).id)
-		deck1.append(nonvanilla1)
-		deck1.append(nonvanilla2)
-		for i in range(8-position):#デッキは10枚
-			deck1.append(random.choice(vanillas).id)
-		player1 = Player("AAAA", deck1, card_class.default_hero)
-		deck2 = copy.deepcopy(deck1)
-		random.shuffle(deck2)
-		player2 = Player("BBBB", deck2, card_class.default_hero)
-		#set a game
-		game = Game(players=(player1, player2))
-		game.start()
 
-		for player in game.players:
-			#print("Can mulligan %r" % (player.choice.cards))
-			mull_count = random.randint(0, len(player.choice.cards))
-			cards_to_mulligan = random.sample(player.choice.cards, mull_count)
-			player.choice.choose(*cards_to_mulligan)
-		game.player1.hero.max_health=10# ヒーローのHPは10
-		game.player2.hero.max_health=10
+	for case in range(1):
+		weight=[]
+		for i in range(34):
+			weight.append(random.randint(1,9))
+		for repeat in range(50):
+			print("    GAME %d"%repeat,end="  -> ")
+			#set decks and players
+			deck1=[]
+			position=random.randint(0,1)
+			for i in range(position):
+				deck1.append((random.choice(vanillas)).id)
+			deck1.append(nonvanilla1)
+			deck1.append(nonvanilla2)
+			for i in range(6-position):#デッキは8枚
+				deck1.append(random.choice(vanillas).id)
+			player1 = Player("AAAA", deck1, card_class.default_hero)
+			deck2 = copy.deepcopy(deck1)
+			random.shuffle(deck2)
+			player2 = Player("BBBB", deck2, card_class.default_hero)
+			#set a game
+			game = Game(players=(player1, player2))
+			game.start()
 
-		turnNumber=0
-		print("Turn ",end=':')
-		while True:
-			turnNumber+=1
-			print(turnNumber,end=":")
-			weight=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-			weight[0]=weight[1]=5
-			weight[26]=10
-			weight[2]=weight[3]=weight[6]=weight[7]=5
-			weight[10]=weight[11]=weight[12]=weight[13]=5
-			StandardStep1(game,weight, debugLog=False)
-			#StandardRandom(game,debugLog=True)
-			#ここはもう少し賢い人にやってほしい
-			if game.state!=State.COMPLETE:
-				try:
-					game.end_turn()
-				except GameOver:#まれにおこる
-					pass
-			else:
-				if game.current_player.playstate == PlayState.WON:
-					winner = game.current_player.name
-					break
-				elif game.current_player.playstate == PlayState.LOST:
-					winner = game.current_player.opponent.name
-					break
+			for player in game.players:
+				#print("Can mulligan %r" % (player.choice.cards))
+				mull_count = 0#random.randint(0, len(player.choice.cards))
+				cards_to_mulligan = random.sample(player.choice.cards, mull_count)
+				player.choice.choose(*cards_to_mulligan)
+			game.player1.hero.max_health=10# ヒーローのHPは10
+			game.player2.hero.max_health=10
+
+			turnNumber=0
+
+
+			print("Turn ",end=':')
+			while True:
+				turnNumber+=1
+				print(turnNumber,end=":")
+				#StandardStep1(game,weight, debugLog=False)
+				AngryCatAI(game,option=[], debugLog=False)
+				#StandardRandom(game,debugLog=True)
+				#ここはもう少し賢い人にやってほしい
+				if game.state!=State.COMPLETE:
+					try:
+						game.end_turn()
+					except GameOver:#まれにおこる
+						pass
 				else:
-					winner = "DRAW"
-					break
-		print("%s won."%winner)
-		if winner=="AAAA":
-			count1 += 1
-		elif winner=="BBBB":
-			count2 += 1
-	print("%d : %d"%(count1, count2))
+					if game.current_player.playstate == PlayState.WON:
+						winner = game.current_player.name
+						break
+					elif game.current_player.playstate == PlayState.LOST:
+						winner = game.current_player.opponent.name
+						break
+					else:
+						winner = "DRAW"
+						break
+			print("%s won."%winner)
+			if winner=="AAAA":
+				count1 += 1
+			elif winner=="BBBB":
+				count2 += 1
+		print("%d : %d"%(count1, count2))
 
 def find_card_pair(onlyresult=1):
 	card_class = CardClass.MAGE#カードクラスを設定することは必須

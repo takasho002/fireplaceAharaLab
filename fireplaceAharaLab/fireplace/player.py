@@ -172,13 +172,14 @@ class Player(Entity, TargetableByAuras):
 		self.summon(self.starting_hero)
 		for id in self.starting_deck:
 			self.card(id, zone=Zone.DECK)
-		self.shuffle_deck()
+		#self.shuffle_deck()
 		self.cthun = self.card("OG_280")
 		self.playstate = PlayState.PLAYING
 
 		# Draw initial hand (but not any more than what we have in the deck)
 		hand_size = min(len(self.deck), self.start_hand_size)
-		starting_hand = random.sample(self.deck, hand_size)
+		#starting_hand = random.sample(self.deck, hand_size)
+		starting_hand = [self.deck[0], self.deck[1], self.deck[2]]
 		# It's faster to move cards directly to the hand instead of drawing
 		for card in starting_hand:
 			card.zone = Zone.HAND

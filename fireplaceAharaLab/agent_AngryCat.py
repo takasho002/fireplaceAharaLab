@@ -20,9 +20,9 @@ def getHisWorth(thisGame: Game):
 	hisCharH = 0
 	hisTauntCharH = 0
 	for char in His.characters:
-		hisCharA += char.atk
+		if char.can_attack():
+			hisCharA += char.atk
 		hisCharH += char.health
-		#GameTag.TAUNT
 		if char.taunt:
 			hisTauntCharH += char.health
 	Vec.append(hisCharA)
@@ -33,9 +33,9 @@ def getHisWorth(thisGame: Game):
 	myCharH = hisCharH
 	myTauntCharH = hisTauntCharH
 	for char in My.characters:
-		myCharA -= char.atk
+		if char.can_attack():
+			myCharA -= char.atk
 		myCharH -= char.health
-		#GameTag.TAUNT
 		if char.taunt:
 			myTauntCharH -= char.health
 	Vec.append(myCharA)
@@ -54,7 +54,7 @@ def getDiffHisWorth(thisGame: Game, myChoice: Candidate):
 	return answer
 
 def getNegativity(Vec):
-	hisMin=10
+	myMax=-10
 	hisNegative=0
 	hisBigNegative=0
 	for i in range(len(Vec)):
@@ -62,9 +62,9 @@ def getNegativity(Vec):
 			hisNegative += 1
 		if Vec[i]<-2:
 			hisBigNegative += 1
-		if Vec[i]<hisMin:
-			hisMin = Vec[i]
-	return hisMin, hisNegative, hisBigNegative
+		if -Vec[i]>myMax:
+			myMax = -Vec[i]
+	return myMax, hisNegative, hisBigNegative
 
 def AngryCatAI(thisGame: Game, option=[], debugLog=True):
 	while True:
@@ -75,8 +75,9 @@ def AngryCatAI(thisGame: Game, option=[], debugLog=True):
 			myChoice1=myChoice2=myChoice3=[]
 			M1=M2=M3=0
 			for myChoice in myCandidates:
-				hisMin, myPositive, myBigPositive = getNegativity(getDiffHisWorth(thisGame, myChoice)) 
-				myMax = -hisMin
+				if '古代の番人' in myChoice.card.data.name:
+					comehere=1
+				myMax, myPositive, myBigPositive = getNegativity(getDiffHisWorth(thisGame, myChoice)) 
 				if M1<myMax:
 					M1=myMax
 					myChoice1=[myChoice]
