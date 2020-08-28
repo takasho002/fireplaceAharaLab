@@ -5,6 +5,7 @@ import numpy as np
 import copy
 from fireplace.exceptions import GameOver
 from hearthstone.enums import CardClass#
+from hearthstone.enums import BlockType
 from utils import Candidate, ExceptionPlay, getCandidates, executeAction
 from fireplace.game import Game
 from enum import IntEnum
@@ -67,6 +68,8 @@ def getNegativity(Vec):
 	return myMax, hisNegative, hisBigNegative
 
 def AngryCatAI(thisGame: Game, option=[], debugLog=True):
+	name1 = option[0]
+	name2 = option[1]
 	while True:
 		myCandidates = getCandidates(thisGame)
 		if len(myCandidates)==0:
@@ -74,9 +77,20 @@ def AngryCatAI(thisGame: Game, option=[], debugLog=True):
 		else:
 			myChoice1=myChoice2=myChoice3=[]
 			M1=M2=M3=0
+			thru=True
 			for myChoice in myCandidates:
-				if '古代の番人' in myChoice.card.data.name:
-					comehere=1
+				if "AAAA" in thisGame.current_player.name:
+					if name1 in myChoice.card.data.name and myChoice.type==BlockType.PLAY:
+						executeAction(thisGame, myChoice, debugLog=True)
+						postAction(thisGame.current_player)
+						thru = False
+						break
+					if name2 in myChoice.card.data.name and myChoice.type==BlockType.PLAY:
+						if myChoice.target!=None and name1 in myChoice.target.data.name:
+							executeAction(thisGame, myChoice, debugLog=True)
+							postAction(thisGame.current_player)
+							thru = False
+							break
 				myMax, myPositive, myBigPositive = getNegativity(getDiffHisWorth(thisGame, myChoice)) 
 				if M1<myMax:
 					M1=myMax
@@ -93,11 +107,12 @@ def AngryCatAI(thisGame: Game, option=[], debugLog=True):
 					myChoice3=[myChoice]
 				elif M3>0 and M3==myBigPositive:
 					myChoice3.append(myChoice)
-			myChoices = myChoice1+myChoice2+myChoice3
-			if len(myChoices)==0:
-				return
-			else:
-				myChoice = random.choice(myChoices)
-				executeAction(thisGame, myChoice, debugLog=True)
-				postAction(thisGame.current_player)
+			if thru:
+				myChoices = myChoice1+myChoice2+myChoice3
+				if len(myChoices)==0:
+					return
+				else:
+					myChoice = random.choice(myChoices)
+					executeAction(thisGame, myChoice, debugLog=True)
+					postAction(thisGame.current_player)
 

@@ -25,13 +25,23 @@ def investigate_card_pair( onlyresult=0):
 	#古代の番人：EX1_045:攻撃できない。
 	#沈黙:EX1_332:ミニオン1体を沈黙させる
 	#player.py line 175をコメントアウトすること。
+
+	#<EX1_180: '知性の書'><BT_006: '魔力喚起'>少し良い
+	#<YOD_030: '認可冒険者'><TRL_310: 'エレメンタル喚起'>少し良い
+
+	#<BOT_600: '研究プロジェクト'><UNG_941: '始原の秘紋'>少し悪い
+	#<EX1_080: '秘密の番人'><BOT_600: '研究プロジェクト'>少し悪い
+
+	#<TRL_516: 'グルバシの供物'><SCH_270: '根源学の予習'>特に悪い
+	#<NEW1_016: '船長のオウム'><CS2_031: 'アイスランス'>
+
 	print(" specific cards : %r%r"%(nonvanilla1, nonvanilla2))
 
 	for case in range(1):
-		weight=[]
-		for i in range(34):
-			weight.append(random.randint(1,9))
-		for repeat in range(50):
+		#weight=[]
+		#for i in range(34):
+		#	weight.append(random.randint(1,9))
+		for repeat in range(100):
 			print("    GAME %d"%repeat,end="  -> ")
 			#set decks and players
 			deck1=[]
@@ -66,7 +76,7 @@ def investigate_card_pair( onlyresult=0):
 				turnNumber+=1
 				print(turnNumber,end=":")
 				#StandardStep1(game,weight, debugLog=False)
-				AngryCatAI(game,option=[], debugLog=False)
+				AngryCatAI(game,option=['古代の番人','沈黙'], debugLog=False)
 				#StandardRandom(game,debugLog=True)
 				#ここはもう少し賢い人にやってほしい
 				if game.state!=State.COMPLETE:
@@ -99,7 +109,7 @@ def find_card_pair(onlyresult=1):
 	spells = get_all_spells(allCards)
 
 	#良いカードペアを漠然と探す旅に出る2枚は呪文カードしばり
-	for matchNumber in range(10):
+	for matchNumber in range(1):
 		count1=0
 		count2=0
 
@@ -111,46 +121,39 @@ def find_card_pair(onlyresult=1):
 
 		print(" specific cards : %r%r"%(nonvanillaName1, nonvanillaName2))
 		for repeat in range(25):
-			if onlyresult==0:
-				print("    GAME %d"%repeat,end="  -> ")
+			print("    GAME %d"%repeat,end="  -> ")
 			#set decks and players
 			deck1=[]
-			position=random.randint(1,7)
+			position=random.randint(0,1)
 			for i in range(position):
 				deck1.append((random.choice(vanillas)).id)
 			deck1.append(nonvanilla1)
 			deck1.append(nonvanilla2)
-			for i in range(8-position):#デッキは10枚
+			for i in range(6-position):#デッキは8枚
 				deck1.append(random.choice(vanillas).id)
-			player1 = Player("Player1", deck1, card_class.default_hero)
+			player1 = Player("AAAA", deck1, card_class.default_hero)
 			deck2 = copy.deepcopy(deck1)
 			random.shuffle(deck2)
-			player2 = Player("Player2", deck2, card_class.default_hero)
+			player2 = Player("BBBB", deck2, card_class.default_hero)
 			#set a game
 			game = Game(players=(player1, player2))
 			game.start()
 				
 			for player in game.players:
 				#print("Can mulligan %r" % (player.choice.cards))
-				mull_count = random.randint(0, len(player.choice.cards))
+				mull_count = 0#random.randint(0, len(player.choice.cards))
 				cards_to_mulligan = random.sample(player.choice.cards, mull_count)
 				player.choice.choose(*cards_to_mulligan)
 			game.player1.hero.max_health=10
 			game.player2.hero.max_health=10
 			turnNumber=0
-			if onlyresult==0:
-				print("Turn ",end=':')
+			print("Turn ",end=':')
 			while True:
 				turnNumber+=1
-				if onlyresult==0:
-					print(turnNumber,end=":")
+				print(turnNumber,end=":")
 				#StandardRandom(game)#ここはもう少し賢くする
-				weight=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-				weight[0]=weight[1]=5
-				weight[26]=10
-				weight[2]=weight[3]=weight[6]=weight[7]=5
-				weight[10]=weight[11]=weight[12]=weight[13]=5
-				StandardStep1(game,weight, debugLog=False)
+				AngryCatAI(game,option=[nonvanillaName1.name, nonvanillaName2.name], debugLog=False)
+
 				if game.state!=State.COMPLETE:
 					try:
 						game.end_turn()
@@ -166,15 +169,10 @@ def find_card_pair(onlyresult=1):
 					else:
 						winner = "DRAW"
 					break
-			if onlyresult==0:
-				print("%s won."%winner)
-			if winner=="Player1":
-				if onlyresult==1:
-					print("O",end=".")
+			print("%s won."%winner)
+			if winner=="AAAA":
 				count1 += 1
-			elif winner=="Player2":
-				if onlyresult==1:
-					print("X",end=".")
+			elif winner=="BBBB":
 				count2 += 1
 		print("(%d : %d)"%(count1, count2),end=" ")#25戦で10点差があれば有意な差あり
 		if count1-count2>=10:
