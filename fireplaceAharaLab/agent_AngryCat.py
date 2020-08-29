@@ -70,10 +70,11 @@ def getNegativity(Vec):
 def AngryCatAI(thisGame: Game, option=[], debugLog=True):
 	name1 = option[0]
 	name2 = option[1]
+	count=0
 	while True:
 		myCandidates = getCandidates(thisGame)
 		if len(myCandidates)==0:
-			return
+			return count
 		else:
 			myChoice1=myChoice2=myChoice3=[]
 			M1=M2=M3=0
@@ -81,15 +82,17 @@ def AngryCatAI(thisGame: Game, option=[], debugLog=True):
 			for myChoice in myCandidates:
 				if "AAAA" in thisGame.current_player.name:
 					if name1 in myChoice.card.data.name and myChoice.type==BlockType.PLAY:
-						executeAction(thisGame, myChoice, debugLog=True)
+						executeAction(thisGame, myChoice, debugLog=False)
 						postAction(thisGame.current_player)
 						thru = False
+						count +=1
 						break
 					if name2 in myChoice.card.data.name and myChoice.type==BlockType.PLAY:
 						if myChoice.target!=None and name1 in myChoice.target.data.name:
-							executeAction(thisGame, myChoice, debugLog=True)
+							executeAction(thisGame, myChoice, debugLog=False)
 							postAction(thisGame.current_player)
 							thru = False
+							count +=1
 							break
 				myMax, myPositive, myBigPositive = getNegativity(getDiffHisWorth(thisGame, myChoice)) 
 				if M1<myMax:
@@ -110,9 +113,9 @@ def AngryCatAI(thisGame: Game, option=[], debugLog=True):
 			if thru:
 				myChoices = myChoice1+myChoice2+myChoice3
 				if len(myChoices)==0:
-					return
+					return count
 				else:
 					myChoice = random.choice(myChoices)
-					executeAction(thisGame, myChoice, debugLog=True)
+					executeAction(thisGame, myChoice, debugLog=False)
 					postAction(thisGame.current_player)
 

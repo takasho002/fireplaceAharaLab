@@ -26,14 +26,16 @@ def investigate_card_pair( onlyresult=0):
 	#沈黙:EX1_332:ミニオン1体を沈黙させる
 	#player.py line 175をコメントアウトすること。
 
-	#<EX1_180: '知性の書'><BT_006: '魔力喚起'>少し良い
-	#<YOD_030: '認可冒険者'><TRL_310: 'エレメンタル喚起'>少し良い
+	#呪文を使うフェーズに入れない
+	#<DRG_066: '躱し身のキメラ'><BOT_101: '星霊の亀裂'>魔法なしで少し良い
+	#<CFM_066: 'カバールの下っ端'><SCH_509: '頭を冷やせ！'>ほんの少し良い
 
-	#<BOT_600: '研究プロジェクト'><UNG_941: '始原の秘紋'>少し悪い
-	#<EX1_080: '秘密の番人'><BOT_600: '研究プロジェクト'>少し悪い
+	#とても良い
 
-	#<TRL_516: 'グルバシの供物'><SCH_270: '根源学の予習'>特に悪い
-	#<NEW1_016: '船長のオウム'><CS2_031: 'アイスランス'>
+	#少し良い
+
+	#少し悪い
+	#とても悪い
 
 	print(" specific cards : %r%r"%(nonvanilla1, nonvanilla2))
 
@@ -109,9 +111,13 @@ def find_card_pair(onlyresult=1):
 	spells = get_all_spells(allCards)
 
 	#良いカードペアを漠然と探す旅に出る2枚は呪文カードしばり
-	for matchNumber in range(1):
-		count1=0
-		count2=0
+	for matchNumber in range(30):
+		c1=0
+		c2=0
+		d1=0
+		d2=0
+		e1=0
+		e2=0
 
 		#ヒーローパワーを消す、というのもよいかも。
 		nonvanillaName1 = random.choice(nonVanillas)
@@ -119,9 +125,9 @@ def find_card_pair(onlyresult=1):
 		nonvanillaName2 = random.choice(spells)#この呪文によって、まえのカードが活かされるかどうか
 		nonvanilla2=nonvanillaName2.id
 
-		print(" specific cards : %r%r"%(nonvanillaName1, nonvanillaName2))
+		#print(" specific cards : %r%r"%(nonvanillaName1, nonvanillaName2))
 		for repeat in range(25):
-			print("    GAME %d"%repeat,end="  -> ")
+			#print("    GAME %d"%repeat,end="  -> ")
 			#set decks and players
 			deck1=[]
 			position=random.randint(0,1)
@@ -147,12 +153,13 @@ def find_card_pair(onlyresult=1):
 			game.player1.hero.max_health=10
 			game.player2.hero.max_health=10
 			turnNumber=0
-			print("Turn ",end=':')
+			#print("Turn ",end=':')
+			count=0
 			while True:
 				turnNumber+=1
-				print(turnNumber,end=":")
+				#print(turnNumber,end=":")
 				#StandardRandom(game)#ここはもう少し賢くする
-				AngryCatAI(game,option=[nonvanillaName1.name, nonvanillaName2.name], debugLog=False)
+				count += AngryCatAI(game,option=[nonvanillaName1.name, nonvanillaName2.name], debugLog=False)
 
 				if game.state!=State.COMPLETE:
 					try:
@@ -169,16 +176,24 @@ def find_card_pair(onlyresult=1):
 					else:
 						winner = "DRAW"
 					break
-			print("%s won."%winner)
+			#print("%s won."%winner)
+			print(".",end='')
 			if winner=="AAAA":
-				count1 += 1
+				c1 += 1
+				if count<=1:
+					d1 += 1
+				if count==2:
+					e1 += 1
 			elif winner=="BBBB":
-				count2 += 1
-		print("(%d : %d)"%(count1, count2),end=" ")#25戦で10点差があれば有意な差あり
-		if count1-count2>=10:
-			print("Significant")
-		else:
-			print("")
+				c2 += 1
+				if count<=1:
+					d2 += 1
+				if count==2:
+					e2 += 1
+		print("")
+		print("%r%r"%(nonvanillaName1, nonvanillaName1.description))
+		print("%r%r"%(nonvanillaName2, nonvanillaName2.description))
+		print("(%d : %d)>(%d : %d)>(%d : %d)"%(c1,c2,d1,d2,e1,e2),)#25戦で10点差があれば有意な差あり
 	pass
 def get_all_cards(card_class: CardClass,costMax=2):
 	from fireplace import cards
