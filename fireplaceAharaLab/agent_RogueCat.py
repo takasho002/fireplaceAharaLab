@@ -51,21 +51,44 @@ def RogueCat_Condition(game, card, target):
 	cond2=0#優先される効果か
 	dscrpt = card.description.replace('\n','')
 	player = game.current_player
+	myHeroHealth=player.hero.health
+	hisHeroHealth=player.opponent.hero.health
+	myTauntH = 0
+	myMinionH = 0
+	myAttack = 0
+	for card in player.characters:
+		if card.can_attack():
+			myAttack += card.atk
+		if card.taunt:
+			myTauntH += card.health
+		if card.type == CardType.MINION:
+			myMinionH += card.health
+	hisTauntH = 0
+	hisAttack = 0
+	for card in player.opponent.characters:
+		if card.can_attack():
+			hisAttack += card.atk
+		if card. taunt:
+			hisTauntH += card.ahealth
+	myHeroRemainder=myHeroHealth+myTaunt-hisAttack
+	hisHeroRemainder=hisHeroHealth+hisTaunt-myAttack
+	myMinionRemainder=myMinionHealth
 	if '激励' in dscrpt:#ヒーローパワーを使うと発動する
 		#基本的にいつでもあとまわし。内容によっては場との関連がありうる。
-#[AT_083][ドラゴンホーク騎兵]([x]<b>激励:</b>このターンの間____<b>疾風</b>を獲得する。)
-#[AT_089][ボーンガード将校](<b>激励:</b> 体力+1を獲得する。)
-#[AT_090][ムクラの勇者](<b>激励:</b> 自身を除く味方のミニオンに、+1/+1を付与する。)
-#[AT_091][トーナメント衛生兵]([x]<b>激励:</b>自分のヒーローの体力を#2回復する。)
-#[AT_099][コドー騎兵]([x]<b>激励:</b>3/5の戦闘コドーを1体召喚する。)
-#[AT_100][シルバーハンドの執政](<b>激励:</b> 1/1のシルバーハンド新兵を1体召喚する。)
-#[AT_109][アージェントの衛兵]([x]攻撃できない。<b>激励:</b> このターン____攻撃することが可能。)
-#[AT_110][コロシアムの支配人](<b>激励:</b> このミニオンを自分の手札に戻す。)
-#[AT_113][徴兵官]([x]<b>激励:</b>2/2の従騎士1体を 自分の手札に追加する。)
-#[AT_119][クヴァルディルの襲撃兵](<b>激励:</b> +2/+2を獲得する。)
-#[AT_127][ネクサスの勇者サラード](<b>激励:</b> ランダムな呪文1枚を自分の手札に追加する。)
 		pass
 	elif '突撃' in dscrpt:#すぐに攻撃できる
+		if '自分のヒーローが武器を装備している場合' in dscrpt:
+			if player.hero.weapon == None:
+				if myRemainder<hisRemainder:
+					cond1+=2
+				else:
+					cond1+=1
+		#負けそうなとき、とりあえず相手の挑発かヒーローをたたくのに使う
+		else:
+			if myRemainder<hisRemainder:
+				cond1+=2
+			else:
+				cond1+=1
 #[AT_070][空賊船長クラッグ](<b>突撃ィィィィ</b>味方の海賊1体につきコストが（1）減る。)
 #[AT_087][アージェントの騎兵](<b>突撃:</b><b>聖なる盾</b>)
 #[AT_108][重装戦馬]([x]<b>雄叫び:</b> 各プレイヤーのデッキのミニオンを1枚ずつ表示する。自分のミニオンの方がコストが高い場合、<b>突撃</b>を獲得する。)
@@ -84,8 +107,6 @@ def RogueCat_Condition(game, card, target):
 #[EX1_116][リロイ・ジェンキンス]([x]<b>突撃</b>、<b>雄叫び:</b> 敵の陣地に1/1のチビドラゴンを2体召喚する。)
 #[GVG_098][ノームレガン歩兵]([x]<b>突撃</b>、<b>挑発</b>)
 #[UNG_099][電撃デビルサウルス]([x]<b>突撃</b>、<b>雄叫び:</b>このターンの間ヒーローを攻撃できない。)
-		#基本的にいつでも。内容によっては場との関連がありうる。
-		#負けそうなとき、とりあえず相手の挑発かヒーローをたたくのに使う
 		pass
 	elif '断末魔' in dscrpt:#死ぬときに発動
 		#基本的にいつでも。内容によっては場との関連がありうる。
