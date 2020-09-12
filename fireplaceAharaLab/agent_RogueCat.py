@@ -22,8 +22,10 @@ def printAllRogueCards():
 		collection.append(cls)
 	for card in collection:
 		dscrpt = card.description
-		if '度' in dscrpt:
-			print("#[%s][%s](%s"%(card.id, card.name, card.description.replace('\n','')))
+		if '断末魔' in dscrpt:
+			print("			if ID in {'%s'}:"%(card.id))
+			print("				cond1.append(['deathrattle',(),()])")
+			print("				#%s : %s"%(card.name, card.description.replace('\n','')))
 	return collection
 
 def RogueCatAI(game, option=[], debugLog=False):
@@ -36,19 +38,13 @@ def RogueCatAI(game, option=[], debugLog=False):
 		else:
 			return
 
-#class RogueCatAct(IntEnum):
-#	""" アクションを言葉で説明"""
-#	手札にドラゴンがいる=0#AT_017:2
-#	コンボＯＫ=1#AT_028:2
-#	武器を装備=2#AT_029:2
-#	pass
-
-def condition(game, cond):
+def haveDragon(game):
 	return False
 
+
 def RogueCat_Condition(game, card, target):
-	cond1=0#状況を満たしているか
-	cond2=0#優先される効果か
+	cond1=[]#満たしている条件
+	cond2=[]#効果
 	dscrpt = card.description.replace('\n','')
 	player = game.current_player
 	myHeroHealth=player.hero.health
@@ -73,28 +69,238 @@ def RogueCat_Condition(game, card, target):
 	myHeroRemainder=myHeroHealth+myTaunt-hisAttack
 	hisHeroRemainder=hisHeroHealth+hisTaunt-myAttack
 	myMinionRemainder=myMinionHealth
+	ID = card.id
 	if '激励' in dscrpt:#ヒーローパワーを使うと発動する
 		#基本的にいつでもあとまわし。内容によっては場との関連がありうる。
 		pass
-	elif '突撃' in dscrpt:#すぐに攻撃できる
+	if '突撃' in dscrpt:#すぐに攻撃できるcharge
 		if  card.charge:
-			if '自分のヒーローが武器を装備している場合' in dscrpt:
-				if player.hero.weapon == None:
-					if myRemainder<hisRemainder:
-						cond1+=2
-					else:
-						cond1+=1
-			#負けそうなとき、とりあえず相手の挑発かヒーローをたたくのに使う
-			else:
-				if myRemainder<hisRemainder:
-					cond1+=2
-				else:
-					cond1+=1
+			flag = (myRemainder<hisRemainder)
+			if ID in {'AT_070'}:
+				cond1.append(['charge', flag, 'lessConst'])
+			elif ID in {'AT_125', 'UNG_099'}:
+				cond1.append(['charge', flag, 'noAttack'])
+			elif ID in {'EX1_116'}:
+				cond1.append(['charge', flag, 'summon'])
+			elif ID in {'CS2_146'}:
+				if player.hero.weapon != None:
+					cond1.append(['charge', flag, None])
+			elif ID in {'CS2_124', 'AT_087', 'CS2_131', 'CS2_171', 'CS2_213', 'EX1_062', 'EX1_067', 'GVG_098'}:
+				cond1.append(['charge', flag, None])
 		pass
-	elif '断末魔' in dscrpt:#死ぬときに発動
+	elif '断末魔' in dscrpt:#死ぬときに発動 deathrattle
 		#基本的にいつでも。内容によっては場との関連がありうる。
 		#断末魔を召喚したり追加したりするカードも基本的にいつでもOK
-		#相手ミニオンに力があり、出してもすぐに殺されることがわかっているとき。
+		#相手ミニオンに力があり、出してもすぐに殺されることがわかっているときは優先。
+			if ID in {'AT_128'}:
+				cond1.append(['deathrattle',(),'backToHand'])
+			if ID in {'BRM_027'}:
+				cond1.append(['deathrattle',(),'changeHero'])
+			if ID in {'AT_123'}:
+				if haveDragon():
+					cond1.append(['deathrattle',(),'damageBoth'])
+			if ID in {'BOT_606', 'BOT_031','CFM_341','CFM_646','EX1_029','GIL_614','ULD_184','UNG_818'}:
+				cond1.append(['deathrattle',(),'damage'])
+			if ID in {'DAL_775','EX1_097','FP1_024','GVG_076','LOE_046','OG_151'}:
+				cond1.append(['deathrattle',(),'damageBoth'])
+			if ID in {'CFM_667','ICC_099','CFM_667'}:
+				cond1.append(['deathrattle',(),'damageSelf'])
+
+			if ID in {'BT_713','BOT_102','BOT_401'}:
+				cond1.append(['deathrattle',(),'drawCard'])
+			if ID in {'BOT_286','BOT_508'}:
+				cond1.append(['deathrattle',(),'help'])
+			if ID in {'DAL_749'}:
+				if card.health>=4:
+					cond1.append(['deathrattle',(),'summon'])
+			if ID in {'AT_036','BOT_066','BOT_267','BOT_312','BOT_445','BOT_565','BOT_700','BT_008','BT_126','BT_155','BT_703','BT_726','BT_728','BT_735','CFM_691','CFM_902','DAL_088','DAL_566',\
+			'DRG_036','EX1_016','EX1_110','EX1_556','FP1_002','FP1_007','FP1_012','FP1_014','FP1_015','GIL_616','GVG_096','GVG_105','GVG_114','ICC_019','ICC_025',\
+			'ICC_067','ICC_812','KAR_041','LOE_089','LOOT_153','LOOT_161','LOOT_233','LOOT_412','OG_133','OG_249','OG_272','SCH_162','SCH_711',\
+			'TRL_363','TRL_503','TRL_531','ULD_174','ULD_706','UNG_010','UNG_076','UNG_083','DAL_743'}:
+				cond1.append(['deathrattle',(),'summon'])
+			if ID in {'BOT_084'}:
+				cond1.append(['drawCard',True, 'deathrattle'])
+
+
+
+
+			if ID in {'CFM_095'}:
+				cond1.append(['deathrattle',(),'addHisDeck'])
+			if ID in {'CFM_120'}:
+				cond1.append(['deathrattle',(),'restoreBoth'])
+			if ID in {'DAL_720'}:
+				cond1.append(['deathrattle',(),'backToHand'])
+			if ID in {'DRG_049'}:
+				if haveDragon():
+					cond1.append(['deathrattle',(),'restore'])
+			if ID in {'DRG_071'}:
+				cond1.append(['deathrattle',(),'addHisDeck'])
+			if ID in {'DRG_086'}:
+				cond1.append(['deathrattle',(),'drawCard'])
+			if ID in {'EX1_012'}:
+				cond1.append(['deathrattle',(),'drawCard'])
+			if ID in {'EX1_096'}:
+				cond1.append(['deathrattle',(),'drawCard'])
+			if ID in {'EX1_577'}:
+				cond1.append(['deathrattle',(),'summonOpponent'])
+			if ID in {'FP1_001'}:
+				cond1.append(['deathrattle',(),'restore'])
+			if ID in {'FP1_004'}:
+				cond1.append(['deathrattle',(),'drawCard'])
+			if ID in {'FP1_009'}:
+				cond1.append(['deathrattle',(),'playHisCard'])
+			if ID in {'FP1_026'}:
+				cond1.append(['deathrattle',(),'backToHand'])
+			if ID in {'FP1_028'}:
+				cond1.append(['restore',(),'deathrattle'])
+				#墓掘り人 : [x]自分が<b>断末魔</b>を持つミニオンを召喚する度__攻撃力+1を獲得する。
+			if ID in {'FP1_029'}:
+				cond1.append(['deathrattle',(),'drawHisCard'])
+			if ID in {'GIL_118'}:
+				cond1.append(['deathrattle',(),'restore'])
+			if ID in {'GIL_513'}:
+				cond1.append(['deathrattle',(),'restore'])
+			if ID in {'GIL_557'}:
+				cond1.append(['deathrattle',(),()])
+				#呪われた漂流者 : [x]<b>急襲</b>、<b>断末魔:</b>自分のデッキから<b>コンボ</b>カードを_1枚引く。
+			if ID in {'GIL_667'}:
+				cond1.append(['deathrattle',(),'restore'])
+			if ID in {'GIL_816'}:
+				cond1.append(['deathrattle',(),()])
+				#沼のドラゴンの卵 : [x]<b>断末魔:</b>ランダムなドラゴン1体を自分の手札に追加する。
+			if ID in {'GVG_078'}:
+				cond1.append(['deathrattle',(),()])
+				#メカ・イェティ : <b>断末魔:</b> 各プレイヤーに<b>スペアパーツ</b>カード1枚を与える。
+			if ID in {'GVG_082'}:
+				cond1.append(['deathrattle',(),()])
+				#ゼンマイ仕掛けのノーム : <b>断末魔:</b> <b>スペアパーツ</b>カード1枚を自分の手札に追加する。
+			if ID in {'GVG_097'}:
+				cond1.append(['deathrattle',(),()])
+				#リトル・エクソシスト : [x]<b>挑発</b>、<b>雄叫び:</b> <b>断末魔</b>を持つ敵のミニオン1体につき_____+1/+1を獲得する。_
+			if ID in {'GVG_115'}:
+				cond1.append(['deathrattle',(),()])
+				#トッシュリー : [x]<b>雄叫び、断末魔:</b> <b>スペアパーツ</b>カード1枚を自分の手札に追加する。
+			if ID in {'ICC_027'}:
+				cond1.append(['deathrattle',(),()])
+				#ボーン・ドレイク : [x]<b>断末魔:</b>ランダムなドラゴン1体を自分の手札に追加する。
+			if ID in {'ICC_065'}:
+				cond1.append(['deathrattle',(),()])
+				#ボーン・バロン : <b>断末魔:</b>1/1のスケルトン2体を自分の手札に追加する。
+			if ID in {'ICC_098'}:
+				cond1.append(['deathrattle',(),()])
+				#墓に潜むもの : [x]<b>雄叫び:</b>この対戦で死亡した<b>断末魔</b>を持つミニオンをランダムに1体自分の手札に追加する。
+			if ID in {'ICC_702'}:
+				cond1.append(['deathrattle',(),()])
+				#浅めの墓穴堀り : <b>断末魔:</b><b>断末魔</b>を持つランダムなミニオン1体を自分の手札に追加する。
+			if ID in {'ICC_854'}:
+				cond1.append(['deathrattle',(),()])
+				#アーファス : <b>断末魔:</b>ランダムな<b>デスナイト</b>カード1枚を自分の手札に追加する。
+			if ID in {'KAR_029'}:
+				cond1.append(['deathrattle',(),()])
+				#ルーンの卵 : <b>断末魔:</b>カードを1枚引く。
+			if ID in {'KAR_094'}:
+				cond1.append(['deathrattle',(),()])
+				#殺意のフォーク : <b>断末魔:</b>3/2の武器1枚を自分の手札に追加する。
+			if ID in {'LOE_012'}:
+				cond1.append(['deathrattle',(),()])
+				#墓荒らし : <b>断末魔:</b> 自分の手札に「コイン」1枚を追加する。
+			if ID in {'LOE_061'}:
+				cond1.append(['deathrattle',(),'restore'])
+			if ID in {'LOOT_144'}:
+				cond1.append(['deathrattle',(),()])
+				#護宝のドラゴン : [x]<b>断末魔:</b>相手に「コイン」2枚を与える。
+			if ID in {'LOOT_184'}:
+				cond1.append(['deathrattle',(),()])
+				#シルバーヴァンガード : [x]<b>断末魔:</b>コスト8のミニオンを1体<b>招集</b>する。
+			if ID in {'LOOT_413'}:
+				if player.weapon != None:
+					cond1.append(['deathrattle',(),'restore'])
+			if ID in {'LOOT_542'}:
+				cond1.append(['deathrattle',(),()])
+				#大逆の刃キングスベイン : 付与された効果を常に維持する。<b>断末魔:</b>この武器を自分のデッキに混ぜる。
+			if ID in {'OG_080'}:
+				cond1.append(['deathrattle',(),()])
+				#蠱毒なザリル : [x]<b>雄叫び＆断末魔:</b> ランダムな毒素カード1枚を自分の手札に追加する。
+			if ID in {'OG_147'}:
+				cond1.append(['deathrattle',(),'restore'])
+			if ID in {'OG_158'}:
+				cond1.append(['deathrattle',(),'restore'])
+			if ID in {'OG_256'}:
+				cond1.append(['deathrattle',(),'restore'])
+			if ID in {'OG_267'}:
+				if player.weapon != None:
+					cond1.append(['deathrattle',(),'restore'])
+			if ID in {'OG_317'}:
+				cond1.append(['deathrattle',(),()])
+				#竜王デスウィング : [x]<b>断末魔:</b>自分の手札のドラゴンを全て戦場に出す。
+			if ID in {'OG_323'}:
+				cond1.append(['deathrattle',(),()])
+				#汚染利品グログロ君 : <b>断末魔:</b> カードを1枚引く。
+			if ID in {'OG_330'}:
+				cond1.append(['deathrattle',(),()])
+				#アンダーシティの押し売り : [x]<b>断末魔:</b><i>相手のクラスの</i>ランダムなカード1枚を_____自分の手札に追加する。
+			if ID in {'SCH_426'}:
+				cond1.append(['deathrattle',(),'summon'])
+			if ID in {'SCH_707'}:
+				cond1.append(['deathrattle',(),()])
+				#空を翔けるトビウオ : [x]<b>急襲</b>、<b>断末魔:</b><b>急襲</b>を持つ4/3の幽霊1体を自分の___手札に追加する。
+			if ID in {'SCH_708'}:
+				cond1.append(['deathrattle',(),()])
+				#日陰草の非行生徒 : [x]<b>隠れ身</b>、<b>断末魔:</b><b>隠れ身</b>を持つ3/1の幽霊1体を自分の___手札に追加する。
+			if ID in {'SCH_709'}:
+				cond1.append(['deathrattle',(),()])
+				#イキってる四年生 : [x]<b>挑発</b>、<b>断末魔:</b><b>挑発</b>を持つ5/7の幽霊1体を自分の___手札に追加する。
+			if ID in {'SCH_714'}:
+				cond1.append(['deathrattle',(),'addCardDeck'])
+				#英才エレク : [x]手札から呪文が使用される度このミニオンはそれを記憶する。<b>断末魔:</b>_記憶した呪文全てを___自分のデッキに混ぜる。
+			if ID in {'TRL_074'}:
+				if HaveMinion():
+					cond1.append(['deathrattle',(),'restore'])
+			if ID in {'TRL_409'}:
+				cond1.append(['deathrattle',(),()])
+				#サメのロア・グラル : [x]<b>雄叫び:</b>_自分のデッキのミニオン1体を捕食してその攻撃力・体力を獲得する。<b>断末魔:</b>_そのミニオンを__自分の手札に追加する。
+			if ID in {'TRL_505'}:
+				cond1.append(['deathrattle',(),'help'])
+				#ひ弱なヒナ : <b>断末魔:</b>自分の手札の獣1体のコストを（1）減らす。
+			if ID in {'TRL_520'}:
+				cond1.append(['deathrattle',(),()])
+				#マーロック・テイスティーフィン : [x]<b>断末魔:</b>自分のデッキから__マーロックを2体引く。
+			if ID in {'TRL_525'}:
+				cond1.append(['deathrattle',(),()])
+				#闘技場の宝箱 : <b>断末魔:</b>カードを2枚引く。
+			if ID in {'TRL_541'}:
+				cond1.append(['deathrattle',(),'addCardDeck'])
+				#魂剥ぐロア・ハッカー : [x]<b>断末魔:</b>各プレイヤーのデッキに「ケガレた血」を1枚ずつ混ぜる。
+			if ID in {'ULD_177'}:
+				cond1.append(['deathrattle',(),()])
+				#オクトサリ : <b>断末魔:</b>カードを8枚引く。
+			if ID in {'ULD_183'}:
+				cond1.append(['deathrattle',(),'restore'])
+				#アヌビサス・ウォーブリンガー : <b>断末魔:</b>自分の手札のミニオン全てに+3/+3を付与する。
+			if ID in {'ULD_208'}:
+				cond1.append(['deathrattle',(),'restore'])
+			if ID in {'ULD_250'}:
+				cond1.append(['deathrattle',(),()])
+				#虫食いゴブリン : [x]<b>挑発</b>、<b>断末魔:</b><b>挑発</b>を持つ1/1の「スカラベ」2体を____自分の手札に追加する。
+			if ID in {'ULD_280'}:
+				cond1.append(['deathrattle',(),()])
+				#サーケットの昏倒強盗 : <b>断末魔:</b>ランダムな敵のミニオン1体を___相手の手札に戻す。
+			if ID in {'ULD_282'}:
+				cond1.append(['deathrattle',(),()])
+				#壺の商人 : [x]<b>断末魔:</b>ランダムなコスト1のミニオン1体を____自分の手札に追加する。
+			if ID in {'ULD_288'}:
+				cond1.append(['deathrattle',(),()])
+				#斂葬のアンカ : [x]<b>雄叫び:</b>自分の手札の<b>断末魔</b>を持つ各ミニオンをそれぞれコスト（1）の1/1に変える。
+			if ID in {'UNG_065'}:
+				cond1.append(['deathrattle',(),()])
+				#死体花シェラジン : [x]<b>断末魔:</b><b>休眠状態</b>になる。1ターン中に4枚のカードを手札から使用すると______このミニオンは復活する。_
+			if ID in {'UNG_845'}:
+				cond1.append(['deathrattle',(),()])
+				#火成のエレメンタル : [x]<b>断末魔:</b>1/2のエレメンタル2体を自分の手札に追加する。
+			if ID in {'YOD_016'}:
+				cond1.append(['deathrattle',(),()])
+				#飛掠船員 : <b>隠れ身</b>、<b>断末魔:</b>カードを1枚引く。
+	
 #[AT_036][アヌバラク]([x]<b>断末魔:</b>このカードを自分の手札に戻し4/4のネルビアン1体を[x]召喚する。)
 #[AT_123][チルモー]([x]<b>挑発</b>、<b>断末魔:</b>自分の手札にドラゴンがいる場合、全てのミニオンに3ダメージを与える。)
 #[AT_128][骸骨騎士]([x]<b>断末魔:</b> 各プレイヤーのデッキのミニオンを1枚ずつ表示する。自分のミニオンの方がコストが高い場合、このミニオンを自分の手札に戻す。)
@@ -256,8 +462,7 @@ def RogueCat_Condition(game, card, target):
 #[UNG_845][火成のエレメンタル]([x]<b>断末魔:</b>1/2のエレメンタル2体を自分の手札に追加する。)
 #[UNG_900][霊の歌い手ウンブラ](自分がミニオンを召喚した後そのミニオンの<b>断末魔</b>を発動する。)
 #[YOD_016][飛掠船員](<b>隠れ身</b>、<b>断末魔:</b>カードを1枚引く。)
-		cond1 +=2
-		pass
+
 	elif '雄叫び' in dscrpt:#場に出たときに発動
 		#基本的にいつでも。内容によっては場との関連がありうる。
 		#内容の精査が必要
