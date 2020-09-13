@@ -19,6 +19,15 @@
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="agent_RogueCat_5.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="fireplaceAharaLab\agent_RogueCat_3.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="fireplaceAharaLab\agent_RogueCat_4.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="fireplaceAharaLab\agent_Standard.py" />
     <Compile Include="fireplaceAharaLab\agent_Hunter.py" />
     <Compile Include="fireplaceAharaLab\agent_Maya.py" />
@@ -248,6 +257,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="fireplaceAharaLab\agent_RogueCat_1.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="fireplaceAharaLab\agent_RogueCat_2.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="fireplaceAharaLab\start.py" />

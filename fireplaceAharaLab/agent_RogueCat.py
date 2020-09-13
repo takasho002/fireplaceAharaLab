@@ -22,9 +22,9 @@ def printAllRogueCards():
 		collection.append(cls)
 	for card in collection:
 		dscrpt = card.description
-		if '魔法活性' in dscrpt:
+		if '急襲' in dscrpt:
 			print("		elif ID  == '%s':"%(card.id))
-			print("			myCondition.append(['silence','', ''])")
+			print("			myCondition.append(['rush','', ''])")
 			print("			#%s : %s"%(card.name, card.description.replace('\n','')))
 	return collection
 
@@ -32,6 +32,9 @@ def RogueCatAI(game, option=[], debugLog=False):
 	while True:
 		myCandidate = getCandidates(game)
 		if len(myCandidate)>0:
+			if debugLog:
+				print '--------------------------'
+
 			myChoice = random.choice(myCandidate)
 			executeAction(thisgame, myChoice, debugLog=debugLog)
 			postAction(player)
@@ -101,51 +104,28 @@ def RogueCat_Condition(game, card, target):
 	if '呪文ダメージ' in dscrpt:
 		myCondition.extend(RogueCat_condition_spellDamage(game))
 	if '<b>猛毒</b>' in dscrpt:
-		#<b>猛毒</b>
+		myCondition.extend(RogueCat_condition_poisonous(game))
 		pass
 	if '<b>超電磁</b>' in dscrpt:
 		#<b>超電磁</b>
 		pass
 	if '<b>急襲</b>' in dscrpt:
 		#<b>急襲</b>
-		pass
+		myCondition.extend(RogueCat_condition_rush(game))
 	if '<b>生命奪取</b>' in dscrpt:
 		#<b>生命奪取</b>
+		myCondition.append(['lifeSteal','',''])
 		pass
 	if '<b>休眠状態</b>' in dscrpt:
 		#<b>休眠状態</b>
+		myCondition.append(['asleep','',''])
 		pass
 	if '<b>発見</b>' in dscrpt:
 		#<b>発見</b>
+		myCondition.append(['discover','',''])
 		pass
 	if '魔法活性' in dscrpt:#Spellburst
-		if ID  == 'SCH_157':
-			myCondition.append(['spellburst','', ''])
-			#魔法の大釜 : [x]<b>魔法活性:</b>使われた呪文と同コストのランダムな呪文を使用する。
-		elif ID  == 'SCH_182':
-			myCondition.append(['spellburst','', ''])
-			#自然の語り手ギドラ : [x]<b>急襲</b>、<b>疾風</b><b>魔法活性:</b>使われた呪文のコストに等しい攻撃力と体力を獲得する。
-		elif ID  == 'SCH_224':
-			myCondition.append(['spellburst','', 'summon'])
-			#ケルスザード校長 : <b>魔法活性:</b>使われた呪文がミニオンを破壊した場合それらのミニオンを召喚する。
-		elif ID  == 'SCH_230':
-			myCondition.append(['spellburst','', ''])
-			#オニクスの魔術書士 : [x]<b>魔法活性:</b>自分のクラスのランダムな呪文2枚を自分の手札に追加する。
-		elif ID  == 'SCH_231':
-			myCondition.append(['spellburst','', ''])
-			#図太い徒弟 : [x]<b>魔法活性:</b>攻撃力+2を獲得する。
-		elif ID  == 'SCH_232':
-			myCondition.append(['spellburst','', ''])
-			#クリムゾンの竜学生 : [x]<b>魔法活性:</b>攻撃力+1と<b>挑発</b>を獲得する。
-		elif ID  == 'SCH_234':
-			myCondition.append(['spellburst','', ''])
-			#偽善系の二年生 : [x]<b>隠れ身</b>、<b>魔法活性:</b><b>コンボ</b>カード1枚を___自分の手札に追加する。
-		elif ID  == 'SCH_248':
-			myCondition.append(['spellburst','', ''])
-			#ペン投げ野郎 : [x]<b>雄叫び:</b>1ダメージを与える。<b>魔法活性:</b>___これを自分の手札に戻す。
-		elif ID  == 'SCH_313':
-			myCondition.append(['spellburst','', ''])
-			#非道の指導教員 : [x]<b>魔法活性:</b>自身を除く全てのミニオンに_____2ダメージを与える。__
+		myCondition.append(['spellBurst','',''])
 		pass
 ########### 度 #################
 
@@ -165,10 +145,10 @@ def RogueCat_Condition(game, card, target):
 
 
 
-############### キーワード #####################	
+############### コンボ #####################	
 	if 'コンボ' in dscrpt:
 		if player.combo:
-			pass
+			myCondition.append(['combo','',''])
 #[AT_028][シャドーパン騎兵](<b>コンボ:</b> 攻撃力+3を獲得する。)
 #[AT_030][アンダーシティの勇士](<b>コンボ:</b> 1ダメージを与える。)
 #[BOT_576][イカレた化学者]([x]<b>コンボ:</b>味方のミニオン1体に__攻撃力+4を付与する。)
@@ -270,7 +250,7 @@ def RogueCat_Condition(game, card, target):
 
 
 
-#味方のミニオンが攻撃された時、and 変身させる
+#味方のミニオンが攻撃された時
 #自分のターンの終了時
 #このターンに自分が呪文を使用した___場合
 #味方に体力6以上のミニオンがいる場合
@@ -282,19 +262,6 @@ def RogueCat_Condition(game, card, target):
 #自分のターンの終了時
 
 
-
-#コストは（1）になる。
-#を1体召喚する
-#を2体召喚する
-#を3体召喚する
-#自分のデッキの残りのカードを__全て引く。
-#攻撃力+4を付与する
-#カードを1枚引く
-#敵のミニオン1体に__4ダメージを与える
-#自分の_____手札に追加する
-#自分のデッキに混ぜる
-#これのコピーに変身させる
-#自分のデッキに混ぜる
 
 def haveBeast(game):
 	player = game.current_player
