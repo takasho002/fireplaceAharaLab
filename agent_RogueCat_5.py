@@ -1,4 +1,4 @@
-def RogueCat_condition_poisonous(game):
+def RogueCat_condition_poisonous(game,ID):
 	myCondition=[]
 	if ID  == 'BOT_565':
 		myCondition.append(['poisonous','', ''])
@@ -59,7 +59,7 @@ def RogueCat_condition_poisonous(game):
 		#猛毒の仕込み : 自分の武器に<b>猛毒</b>を付与する。	
 	return myCondition
 
-def RogueCat_condition_rush(game):
+def RogueCat_condition_rush(game,ID):
 	myCondition=[]
 	if ID  == 'BOT_020':
 		myCondition.append(['rush','', ''])

@@ -1,4 +1,4 @@
-def RogueCat_condition_deathrattle(game):
+def RogueCat_condition_deathrattle(game,ID):
 	cond1=[]
 	#if card.has_deathrattle:
 	#断末魔　死ぬときに発動 deathrattle

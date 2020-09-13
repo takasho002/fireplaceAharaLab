@@ -1,4 +1,4 @@
-def RogueCat_condition_secret(game):
+def RogueCat_condition_secret(game,ID):
 	myCondition=[]
 	#固有の条件を満たすときに発動
 	#基本的にいつでも。内容によっては場との関連がありうる。
@@ -26,7 +26,7 @@ def RogueCat_condition_secret(game):
 	return myCondition
 
 
-def RogueCat_condition_taunt(game):
+def RogueCat_condition_taunt(game,ID):
 	myCondition=[]
 	#このカードが挑発カードの場合
 	#→味方の場に出ているカードが多いときはGO

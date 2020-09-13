@@ -1,4 +1,4 @@
-def RogueCat_condition_devineShield(game):
+def RogueCat_condition_devineShield(game,ID):
 	myCondition=[]
 	if ID == 'AT_087':
 		cond1.append(['divineShield','', ''])
@@ -104,7 +104,7 @@ def RogueCat_condition_devineShield(game):
 		#トルヴィアのストーンシェイパー : [x]<b>雄叫び:</b>前のターンに手札からエレメンタルを使用していた場合_______<b>挑発</b>と<b>聖なる盾</b>を獲得する。
 	return myCondition
 
-def RogueCat_condition_stealth(game):
+def RogueCat_condition_stealth(game,ID):
 	myCondition=[]
 	if ID == 'AT_095':
 		cond1.append(['stealth','', ''])
@@ -240,7 +240,7 @@ def RogueCat_condition_stealth(game):
 		#飛掠船員 : <b>隠れ身</b>、<b>断末魔:</b>カードを1枚引く。
 	return myCondition
 
-def RogueCat_condition_spellDamage(game):
+def RogueCat_condition_spellDamage(game,ID):
 	myCondition=[]
 	#攻撃呪文カードを持っていたら+2
 	if ID == 'AT_093':

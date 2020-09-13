@@ -6,6 +6,13 @@ from hearthstone.enums import CardClass, CardType, Race
 from utils import ExceptionPlay, Candidate, executeAction, getCandidates
 from agent_Standard import postAction
 
+from agent_RogueCat_1 import *
+from agent_RogueCat_2 import *
+from agent_RogueCat_3 import *
+from agent_RogueCat_4 import *
+from agent_RogueCat_5 import *
+
+
 #from agent_RogueCat import printAllRogueCards
 def printAllRogueCards():
 	from fireplace import cards
@@ -30,13 +37,22 @@ def printAllRogueCards():
 
 def RogueCatAI(game, option=[], debugLog=False):
 	while True:
+		player = game.current_player
 		myCandidate = getCandidates(game)
 		if len(myCandidate)>0:
 			if debugLog:
-				print '--------------------------'
-
+				print( '--------------------------')
+				for n in range(len(myCandidate)):
+					myC = RogueCat_Condition(game, myCandidate[n].card, myCandidate[n].target)
+					card = myCandidate[n].card
+					target = myCandidate[n].target
+					print("%s : %s"%(card.data.name, card.data.description.replace('\n','')))
+					print("->%r"%target)
+					for repeat in range(len(myC)):
+						print("%s"%myC[repeat])
+				print( '--------------------------')
 			myChoice = random.choice(myCandidate)
-			executeAction(thisgame, myChoice, debugLog=debugLog)
+			executeAction(game, myChoice, debugLog=debugLog)
 			postAction(player)
 		else:
 			return
@@ -45,10 +61,11 @@ def haveDragon(game):
 	return False
 
 
-def RogueCat_Condition(game, card, target):
+
+def RogueCat_Condition(game, card, target) -> list:
 	myCondition=[]#満たしている条件
 	cond2=[]#効果
-	dscrpt = card.description.replace('\n','')
+	dscrpt = card.data.description.replace('\n','')
 	player = game.current_player
 	myHeroHealth=player.hero.health
 	hisHeroHealth=player.opponent.hero.health
@@ -68,11 +85,13 @@ def RogueCat_Condition(game, card, target):
 		if card.can_attack():
 			hisAttack += card.atk
 		if card. taunt:
-			hisTauntH += card.ahealth
-	myHeroRemainder=myHeroHealth+myTaunt-hisAttack
-	hisHeroRemainder=hisHeroHealth+hisTaunt-myAttack
-	myMinionRemainder=myMinionHealth
+			hisTauntH += card.health
+	myHeroRemainder=myHeroHealth+myTauntH-hisAttack
+	hisHeroRemainder=hisHeroHealth+hisTauntH-myAttack
+	myMinionRemainder=myMinionH
 	ID = card.id
+	if card.type==CardType.HERO:
+		return myCondition
 	if '激励' in dscrpt:#ヒーローパワーを使うと発動する
 		#基本的にいつでもあとまわし。内容によっては場との関連がありうる。
 		pass
@@ -90,28 +109,28 @@ def RogueCat_Condition(game, card, target):
 			myCondition.append(['charge', 'myRemainder<hisRemainder', None])
 		pass
 	if card.has_deathrattle:#断末魔
-		myCondition.extend( RogueCat_condition_deathrattle(game))
+		myCondition.extend( RogueCat_condition_deathrattle(game,ID))
 	if card.has_battlecry:#雄叫び
-		myCondition.extend(RogueCat_condition_battlecry(game))
+		myCondition.extend(RogueCat_condition_battlecry(game,ID))
 	if '秘策:' in dscrpt:
-		myCondition.extend(RogueCat_condition_secret(game))
+		myCondition.extend(RogueCat_condition_secret(game,ID))
 	if '<b>挑発</b>' in dscrpt:
-		myCondition.extend(RogueCat_condition_taunt(game))
+		myCondition.extend(RogueCat_condition_taunt(game,ID))
 	if '聖なる盾' in dscrpt:#一回の攻撃を受けない
-		myCondition.extend(RogueCat_condition_devineShield(game))
+		myCondition.extend(RogueCat_condition_devineShield(game,ID))
 	if '隠れ身' in dscrpt:#こちらから攻撃するまでの攻撃対象にならない
-		myCondition.extend(RogueCat_condition_stealth(game))
+		myCondition.extend(RogueCat_condition_stealth(game,ID))
 	if '呪文ダメージ' in dscrpt:
-		myCondition.extend(RogueCat_condition_spellDamage(game))
+		myCondition.extend(RogueCat_condition_spellDamage(game,ID))
 	if '<b>猛毒</b>' in dscrpt:
-		myCondition.extend(RogueCat_condition_poisonous(game))
+		myCondition.extend(RogueCat_condition_poisonous(game,ID))
 		pass
 	if '<b>超電磁</b>' in dscrpt:
 		#<b>超電磁</b>
 		pass
 	if '<b>急襲</b>' in dscrpt:
 		#<b>急襲</b>
-		myCondition.extend(RogueCat_condition_rush(game))
+		myCondition.extend(RogueCat_condition_rush(game,ID))
 	if '<b>生命奪取</b>' in dscrpt:
 		#<b>生命奪取</b>
 		myCondition.append(['lifeSteal','',''])
@@ -260,7 +279,7 @@ def RogueCat_Condition(game, card, target):
 #このターンの間のみ
 #相手の陣地に3体以上のミニオンがいる場合
 #自分のターンの終了時
-
+	return myCondition
 
 
 def haveBeast(game):

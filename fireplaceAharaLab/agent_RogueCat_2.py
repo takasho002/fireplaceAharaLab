@@ -1,4 +1,4 @@
-def RogueCat_condition_battlecry(game):
+def RogueCat_condition_battlecry(game,ID):
 	myCondition=[]
 	#雄叫び。場に出たときに発動 battlecry
 	#基本的にいつでも。内容によっては場との関連がありうる。
@@ -1272,7 +1272,7 @@ def RogueCat_condition_battlecry(game):
 			myCondition.append(['battlecry','', ''])
 			#輝く瞳の斥候 : <b>雄叫び:</b>カードを1枚引く。そのカードのコストを（5）に変える。
 		elif ID == 'UNG_205':
-			myCondition.append(['battlecry','', ''])
+			myCondition.append(['battlecry','heHasMinion()', 'damage'])
 			#グレイシャル・シャード : <b>雄叫び:</b>敵1体を<b>凍結</b>させる。
 		elif ID == 'UNG_801':
 			myCondition.append(['battlecry','', ''])
