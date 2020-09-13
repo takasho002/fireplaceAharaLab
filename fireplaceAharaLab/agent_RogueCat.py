@@ -73,24 +73,26 @@ def RogueCat_Condition(game, card, target):
 	if '激励' in dscrpt:#ヒーローパワーを使うと発動する
 		#基本的にいつでもあとまわし。内容によっては場との関連がありうる。
 		pass
-	if '突撃' in dscrpt:#すぐに攻撃できるcharge
-		if  card.charge:
-			if ID in {'AT_070'}:
-				cond1.append(['charge', 'myRemainder<hisRemainder', 'lessConst'])
-			elif ID in {'AT_125', 'UNG_099'}:
-				cond1.append(['charge', 'myRemainder<hisRemainder', 'noAttack'])
-			elif ID in {'EX1_116'}:
-				cond1.append(['charge', 'myRemainder<hisRemainder', 'summon'])
-			elif ID in {'CS2_146'}:
-				if player.hero.weapon != None:
-					cond1.append(['charge', 'myRemainder<hisRemainder', None])
-			elif ID in {'CS2_124', 'AT_087', 'CS2_131', 'CS2_171', 'CS2_213', 'EX1_062', 'EX1_067', 'GVG_098'}:
+	if  card.charge:
+		if ID in {'AT_070'}:
+			cond1.append(['charge', 'myRemainder<hisRemainder', 'lessConst'])
+		elif ID in {'AT_125', 'UNG_099'}:
+			cond1.append(['charge', 'myRemainder<hisRemainder', 'noAttack'])
+		elif ID in {'EX1_116'}:
+			cond1.append(['charge', 'myRemainder<hisRemainder', 'summon'])
+		elif ID in {'CS2_146'}:
+			if player.hero.weapon != None:
 				cond1.append(['charge', 'myRemainder<hisRemainder', None])
+		elif ID in {'CS2_124', 'AT_087', 'CS2_131', 'CS2_171', 'CS2_213', 'EX1_062', 'EX1_067', 'GVG_098'}:
+			cond1.append(['charge', 'myRemainder<hisRemainder', None])
 		pass
-	if '断末魔' in dscrpt:#死ぬときに発動 deathrattle
-		#基本的にいつでも。内容によっては場との関連がありうる。
-		#断末魔を召喚したり追加したりするカードも基本的にいつでもOK
+	if card.has_deathrattle:
+		#断末魔　死ぬときに発動 deathrattle
+		#発動のタイミングが相手に依存しているの、基本的にいつでも。
+		#内容によっては場との関連がありうる。
+		#ミニオンを召喚したりカードを追加したり相手にダメージを与えるものはいつでもOK
 		#相手ミニオンに力があり、出してもすぐに殺されることがわかっているときは優先。
+		#全体にダメージを与えるもの、自分にダメージを与えるものには注意。
 		if ID in {'AT_036'}:
 			cond1.append(['deathrattle','', 'summon'])
 			#アヌバラク : [x]<b>断末魔:</b>このカードを自分の手札に戻し4/4のネルビアン1体を[x]召喚する。
@@ -517,7 +519,7 @@ def RogueCat_Condition(game, card, target):
 			cond1.append(['deathrattle','', 'drawCard'])
 			#虫食いゴブリン : [x]<b>挑発</b>、<b>断末魔:</b><b>挑発</b>を持つ1/1の「スカラベ」2体を____自分の手札に追加する。
 		elif ID in {'ULD_280'}:
-			cond1.append(['deathrattle','', 'backCardHisHand'])
+			cond1.append(['deathrattle','heHasMinion()', 'backCardHisHand'])
 			#サーケットの昏倒強盗 : <b>断末魔:</b>ランダムな敵のミニオン1体を___相手の手札に戻す。
 		elif ID in {'ULD_282'}:
 			cond1.append(['deathrattle','', 'DrawCard'])
@@ -538,7 +540,7 @@ def RogueCat_Condition(game, card, target):
 			cond1.append(['deathrattle','', 'summon'])
 			#デビルサウルスの卵 : [x]<b>断末魔:</b>5/5のデビルサウルスを1体召喚する。
 		elif ID in {'UNG_818'}:
-			cond1.append(['deathrattle','', 'damage'])
+			cond1.append(['deathrattle','heHasMinion()', 'damage'])
 			#即発のエレメンタル : <b>断末魔:</b>ランダムな敵のミニオン1体に　3ダメージを与える。
 		elif ID in {'UNG_845'}:
 			cond1.append(['deathrattle','', 'drawCard'])
@@ -549,17 +551,17 @@ def RogueCat_Condition(game, card, target):
 		elif ID in {'YOD_016'}:
 			cond1.append(['deathrattle','', 'drawCard'])
 			#飛掠船員 : <b>隠れ身</b>、<b>断末魔:</b>カードを1枚引く。
-	if '雄叫び' in dscrpt:#場に出たときに発動 battlecry
+	if card.has_battlecry:#雄叫び。場に出たときに発動 battlecry
 		#基本的にいつでも。内容によっては場との関連がありうる。
 		#内容の精査が必要
 		if ID in {'AT_017'}:
-			cond1.append(['battlecry','', ''])
+			cond1.append(['battlecry','haveDragon()', ''])
 			#トワイライトの守護者 : [x]<b>雄叫び:</b>自分の手札にドラゴンがいる場合、攻撃力+1と<b>挑発</b>を獲得する。
 		elif ID in {'AT_032'}:
-			cond1.append(['battlecry','', ''])
+			cond1.append(['battlecry','havePirate() or onPirate()', ''])
 			#闇商人 : [x]<b>雄叫び:</b>味方に海賊がいる場合___+1/+1を獲得する。
 		elif ID in {'AT_084'}:
-			cond1.append(['battlecry','', ''])
+			cond1.append(['battlecry','haveMinion()', ''])
 			#槍持ち : <b>雄叫び:</b> 味方のミニオン1体に攻撃力+2を付与する。
 		elif ID in {'AT_086'}:
 			cond1.append(['battlecry','', ''])
