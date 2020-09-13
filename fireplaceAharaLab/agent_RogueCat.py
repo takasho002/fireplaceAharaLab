@@ -98,7 +98,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['deathrattle','', 'summon'])
 				#アヌバラク : [x]<b>断末魔:</b>このカードを自分の手札に戻し4/4のネルビアン1体を[x]召喚する。
 			elif ID == 'AT_123':
-				cond1.append(['deathrattle','haveDragon()', 'damageAll'])
+				cond1.append(['deathrattle','haveDragon(game)', 'damageAll'])
 				#チルモー : [x]<b>挑発</b>、<b>断末魔:</b>自分の手札にドラゴンがいる場合、全てのミニオンに3ダメージを与える。
 			elif ID == 'AT_128':
 				cond1.append(['deathrattle','', 'backCardHand'])
@@ -129,7 +129,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['deathrattle','', 'addCardHand'])
 				#兵器化ピニャータ : [x]<b>断末魔:</b>ランダムな<b>レジェンド</b>ミニオン1体を自分の_____手札に追加する。
 			elif ID == 'BOT_424':
-				cond1.append(['deathrattle','noDeck() and noHand() and noCharacter()', 'damageHero'])
+				cond1.append(['deathrattle','noDeck(game) and noHand(game) and noCharacter(game)', 'damageHero'])
 				#メックトゥーン : [x]<b>断末魔:</b>自分のデッキ、手札、陣地にカードがない場合_____敵のヒーローを破壊する。
 			elif ID == 'BOT_445':
 				cond1.append(['deathrattle','', 'summon'])
@@ -141,7 +141,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['deathrattle','', 'summon'])
 				#ブライトノズル・クローラー : <b>断末魔:</b><b>猛毒</b>と<b>急襲</b>を持つ1/1のウーズを1体召喚する。
 			elif ID == 'BOT_606':
-				cond1.append(['deathrattle','heHasMinion()', 'damage'])
+				cond1.append(['deathrattle','heHasMinion(game)', 'damage'])
 				#ブーマーロボ : <b>断末魔:</b>ランダムな敵のミニオン1体に__4ダメージを与える。
 			elif ID == 'BOT_700':
 				cond1.append(['deathrattle','', 'summon'])
@@ -185,13 +185,13 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['deathrattle','', 'restoreBoth'])
 				#超うざい調剤師 : [x]<b>断末魔:</b>各ヒーローの体力を#4回復する。
 			elif ID == 'CFM_341':
-				cond1.append(['deathrattle','heHasMinion()', 'damage'])
+				cond1.append(['deathrattle','heHasMinion(game)', 'damage'])
 				#サリー巡査部長 : <b>断末魔:</b>敵のミニオン全てにこのミニオンの攻撃力に等しいダメージを与える。
 			elif ID == 'CFM_646':
 				cond1.append(['deathrattle','', 'damage'])
 				#裏町のレプラノーム : [x]<b>断末魔:</b>敵のヒーローに____2ダメージを与える。
 			elif ID == 'CFM_667':
-				cond1.append(['deathrattle','heHasMinion()', 'damage'])
+				cond1.append(['deathrattle','heHasMinion(game)', 'damage'])
 				cond1.append(['deathrattle','', 'damageSelf'])
 				#爆弾部隊 : [x]<b>雄叫び:</b> 敵のミニオン1体に5ダメージを与える。<b>断末魔:</b> 自分のヒーローに5ダメージを与える。
 			elif ID == 'CFM_691':
@@ -224,7 +224,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['deathrattle','', 'summon'])
 				#ワクサドレッド : [x]<b>断末魔:</b>引かれた際「ワクサドレッド」を再度召喚するロウソク1枚を______自分のデッキに混ぜる。_
 			elif ID == 'DRG_049':
-				cond1.append(['deathrattle','haveDragon()', 'help'])
+				cond1.append(['deathrattle','haveDragon(game)', 'help'])
 				#美味しいマロバルーン : <b>断末魔:</b>自分の手札のドラゴン1体に__+2/+2を付与する。
 			elif ID == 'DRG_071':
 				cond1.append(['deathrattle','', 'addSmallCardHisDeck'])
@@ -292,7 +292,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['deathrattle','', 'drawCard'])
 				#踊る剣 : [x]<b>断末魔:</b>相手はカードを1枚引く。
 			elif ID == 'FP1_031':
-				cond1.append(['','haveSeathrattleMinion()', ''])
+				cond1.append(['','haveDeathrattleMinion(game)', ''])
 				#バロン・リーヴェンデア : [x]味方のミニオンの__<b>断末魔</b>は2回発動する。
 		elif 'GIL_' in ID:
 			if ID == 'GIL_118':
@@ -330,7 +330,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['deathrattle','', 'summon'])
 				#手動操縦のシュレッダー : <b>断末魔:</b> ランダムなコスト2のミニオン1体を召喚する。
 			elif ID == 'GVG_097':
-				cond1.append(['deathrattle','haveHisMinion()', 'help'])
+				cond1.append(['deathrattle','heHasMinion(game)', 'help'])
 				#リトル・エクソシスト : [x]<b>挑発</b>、<b>雄叫び:</b> <b>断末魔</b>を持つ敵のミニオン1体につき_____+1/+1を獲得する。_
 			elif ID == 'GVG_105':
 				cond1.append(['deathrattle','', 'summon'])
@@ -394,7 +394,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['deathrattle','', 'damage'])
 				#巨大ガマ : <b>断末魔:</b> ランダムな敵1体に1ダメージを与える。
 			elif ID == 'LOE_061':
-				cond1.append(['deathrattle','haveMinion()', 'help'])
+				cond1.append(['deathrattle','haveMinion(game)', 'help'])
 				#アヌビサス・センチネル : [x]<b>断末魔:</b>ランダムな味方のミニオン1体に____+3/+3を付与する。
 			elif ID == 'LOE_089':
 				cond1.append(['deathrattle','', 'summon'])
@@ -416,7 +416,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['deathrattle','', 'summon'])
 				#呪われた門弟 : [x]<b>断末魔:</b>5/1のレヴナントを1体召喚する。
 			elif ID == 'LOOT_412':
-				cond1.append(['deathrattle','haveMinion()', 'summon'])
+				cond1.append(['deathrattle','haveMinion(game)', 'summon'])
 				#コボルトの幻術師 : [x]<b>断末魔:</b>自分の手札からミニオン1体の1/1のコピーを1体召喚する。
 			elif ID == 'LOOT_413':
 				cond1.append(['deathrattle','', 'help'])
@@ -456,7 +456,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['deathrattle','', 'summon'])
 				#黄昏の鎚の召喚師 : <b>断末魔:</b> 5/5の無貌の破壊者を1体召喚する。
 			elif ID == 'OG_317':
-				cond1.append(['deathrattle','haveDragon()', 'playCard'])
+				cond1.append(['deathrattle','haveDragon(game)', 'playCard'])
 				#竜王デスウィング : [x]<b>断末魔:</b>自分の手札のドラゴンを全て戦場に出す。
 			elif ID == 'OG_323':
 				cond1.append(['deathrattle','', 'drawCard'])
@@ -500,7 +500,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['deathrattle','', 'summon'])
 				#スカラベの卵 : [x]<b>断末魔:</b>1/1の「スカラベ」を3体召喚する。
 			elif ID == 'TRL_505':
-				cond1.append(['deathrattle','haveBeast()', 'help'])
+				cond1.append(['deathrattle','haveBeast(game)', 'help'])
 				#ひ弱なヒナ : <b>断末魔:</b>自分の手札の獣1体のコストを（1）減らす。
 			elif ID == 'TRL_520':
 				cond1.append(['deathrattle','', 'drawCard'])
@@ -522,7 +522,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['deathrattle','', 'drawCard'])
 				#オクトサリ : <b>断末魔:</b>カードを8枚引く。
 			elif ID == 'ULD_183':
-				cond1.append(['deathrattle','haveMinion()', 'help'])
+				cond1.append(['deathrattle','haveMinion(game)', 'help'])
 				#アヌビサス・ウォーブリンガー : <b>断末魔:</b>自分の手札のミニオン全てに+3/+3を付与する。
 			elif ID == 'ULD_184':
 				cond1.append(['deathrattle','', 'damage'])
@@ -534,7 +534,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['deathrattle','', 'drawCard'])
 				#虫食いゴブリン : [x]<b>挑発</b>、<b>断末魔:</b><b>挑発</b>を持つ1/1の「スカラベ」2体を____自分の手札に追加する。
 			elif ID == 'ULD_280':
-				cond1.append(['deathrattle','heHasMinion()', 'backCardHisHand'])
+				cond1.append(['deathrattle','heHasMinion(game)', 'backCardHisHand'])
 				#サーケットの昏倒強盗 : <b>断末魔:</b>ランダムな敵のミニオン1体を___相手の手札に戻す。
 			elif ID == 'ULD_282':
 				cond1.append(['deathrattle','', 'DrawCard'])
@@ -556,7 +556,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['deathrattle','', 'summon'])
 				#デビルサウルスの卵 : [x]<b>断末魔:</b>5/5のデビルサウルスを1体召喚する。
 			elif ID == 'UNG_818':
-				cond1.append(['deathrattle','heHasMinion()', 'damage'])
+				cond1.append(['deathrattle','heHasMinion(game)', 'damage'])
 				#即発のエレメンタル : <b>断末魔:</b>ランダムな敵のミニオン1体に　3ダメージを与える。
 			elif ID == 'UNG_845':
 				cond1.append(['deathrattle','', 'drawCard'])
@@ -573,13 +573,13 @@ def RogueCat_Condition(game, card, target):
 		#内容の精査が必要
 		if 'AT_' in ID:
 			if ID == 'AT_017':
-				cond1.append(['battlecry','haveDragon()', ''])
+				cond1.append(['battlecry','haveDragon(game)', ''])
 				#トワイライトの守護者 : [x]<b>雄叫び:</b>自分の手札にドラゴンがいる場合、攻撃力+1と<b>挑発</b>を獲得する。
 			elif ID == 'AT_032':
-				cond1.append(['battlecry','havePirate() or onPirate()', ''])
+				cond1.append(['battlecry','havePirate(game) or onPirate(game)', ''])
 				#闇商人 : [x]<b>雄叫び:</b>味方に海賊がいる場合___+1/+1を獲得する。
 			elif ID == 'AT_084':
-				cond1.append(['battlecry','haveMinion()', ''])
+				cond1.append(['battlecry','haveMinion(game)', ''])
 				#槍持ち : <b>雄叫び:</b> 味方のミニオン1体に攻撃力+2を付与する。
 			elif ID == 'AT_086':
 				cond1.append(['battlecry','', ''])
@@ -600,7 +600,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['battlecry','', ''])
 				#傷を負ったクヴァルディル : <b>雄叫び:</b> このミニオンに3ダメージを与える。
 			elif ID == 'AT_106':
-				cond1.append(['battlecry','HeHasDevilMinion()', 'silence'])
+				cond1.append(['battlecry','heHasDevil(game)', 'silence'])
 				#光の勇者 : <b>雄叫び:</b> 悪魔1体を<b>沈黙</b>させる。
 			elif ID == 'AT_108':
 				cond1.append(['battlecry','', ''])
@@ -859,7 +859,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['battlecry','', ''])
 				#グライムストリートの運び屋 : <b>雄叫び:</b>自分の手札のランダムなミニオン1体に+1/+1を付与する。
 			elif ID == 'CFM_855':
-				cond1.append(['battlecry','HeHasDeathrattleMinion()', 'silence'])
+				cond1.append(['battlecry','HeHasDeathrattle(game)', 'silence'])
 				#デファイアスの掃除屋 : [x]<b>雄叫び:</b><b>断末魔</b>を持つミニオン1体を<b>沈黙</b>させる。
 		elif 'CS2_' in ID:
 			if ID == 'CS2_117':
@@ -890,7 +890,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['battlecry','', ''])
 				#レイザーフェン・ハンター : [x]<b>雄叫び:</b> 1/1のイノシシを1体召喚する。
 			elif ID == 'CS2_203':
-				cond1.append(['battlecry','HeHasMinion()', 'silence'])
+				cond1.append(['battlecry','heHasMinion(game)', 'silence'])
 				#鉄嘴のフクロウ : [x]<b>雄叫び:</b>ミニオン1体を<b>沈黙</b>させる。
 			elif ID == 'CS2_226':
 				cond1.append(['battlecry','', ''])
@@ -1103,7 +1103,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['battlecry','', ''])
 				#ダークアイアンのドワーフ : [x]<b>雄叫び:</b> このターンの間ミニオン1体に　攻撃力+2を付与する。
 			elif ID == 'EX1_048':
-				cond1.append(['battlecry','HeHasNonVanillaMinion()', 'silence'])
+				cond1.append(['battlecry','heHasNonVanilla(game)', 'silence'])
 				#スペルブレイカー : [x]<b>雄叫び:</b>ミニオン1体を<b>沈黙</b>させる。
 			elif ID == 'EX1_049':
 				cond1.append(['battlecry','', ''])
@@ -1709,7 +1709,7 @@ def RogueCat_Condition(game, card, target):
 				cond1.append(['battlecry','', ''])
 				#ファイアーツリーの呪術医 : [x]<b>雄叫び:</b>自分の手札にドラゴンがいる場合_____呪文を1つ<b>発見</b>する。
 			elif ID == 'TRL_524':
-				cond1.append(['battlecry','heHasTaunt()', 'silence'])
+				cond1.append(['battlecry','heHasTaunt(game)', 'silence'])
 				#シールドブレイカー : <b>雄叫び:</b><b>挑発</b>を持つ敵のミニオン1体を<b>沈黙</b>させる。
 			elif ID == 'TRL_526':
 				cond1.append(['battlecry','', ''])
@@ -1925,7 +1925,7 @@ def RogueCat_Condition(game, card, target):
 		#挑発を付与するタイプの呪文の場合
 		#→付与する対象のミニオンがある場合にはGO
 		if ID == 'AT_017':
-			cond1.append(['taunt','haveDragon()', ''])
+			cond1.append(['taunt','haveDragon(game)', ''])
 			#トワイライトの守護者 : [x]<b>雄叫び:</b>自分の手札にドラゴンがいる場合、攻撃力+1と<b>挑発</b>を獲得する。
 		elif ID == 'AT_097':
 			cond1.append(['taunt','', ''])
@@ -2213,7 +2213,7 @@ def RogueCat_Condition(game, card, target):
 			cond1.append(['taunt','', ''])
 			#会場警備係 : [x]<b>挑発</b>敵のミニオン1体につきコストが（1）減る。
 		elif ID == 'TRL_524':
-			cond1.append(['taunt','heHasTaunt()', 'silence'])
+			cond1.append(['taunt','heHasTaunt(game)', 'silence'])
 			#シールドブレイカー : <b>雄叫び:</b><b>挑発</b>を持つ敵のミニオン1体を<b>沈黙</b>させる。
 		elif ID == 'TRL_550':
 			cond1.append(['taunt','', ''])
@@ -2692,77 +2692,77 @@ def RogueCat_Condition(game, card, target):
 
 	if 'ドラゴン' in dscrpt:
 		if ID == 'AT_017':
-			if haveDragon():
+			if haveDragon(game):
 				cond1.append(['dragon','' ,''])
 			pass
 			#[AT_017][トワイライトの守護者]([x]<b>雄叫び:</b>自分の手札にドラゴンがいる場合、攻撃力+1と<b>挑発</b>を獲得する。)
 		if ID == 'AT_123':
-			if haveDragon():
+			if haveDragon(game):
 				cond1.append(['dragon','' ,''])
 			pass
 			#[AT_123][チルモー]([x]<b>挑発</b>、<b>断末魔:</b>自分の手札にドラゴンがいる場合、全てのミニオンに3ダメージを与える。)
 		if ID == 'BRM_029':
-			if haveDragon():
+			if haveDragon(game):
 				cond1.append(['dragon','' ,''])
 			pass
 			#[BRM_029][レンド・ブラックハンド]([x]<b>雄叫び:</b>自分の手札にドラゴンがいる場合<b>レジェンド</b>ミニオン1体を破壊する。)
 		if ID == 'BRM_033':
-			if haveDragon():
+			if haveDragon(game):
 				cond1.append(['dragon','' ,''])
 			pass
 			#[BRM_033][ブラックウィングの技術者]([x]<b>雄叫び:</b> 自分の手札にドラゴンがいる場合____+1/+1を獲得する。)
 		if ID == 'BRM_034':
-			if haveDragon():
+			if haveDragon(game):
 				cond1.append(['dragon','' ,''])
 			pass
 			#[BRM_034][ブラックウィングの変性者]([x]<b>雄叫び:</b> 自分の手札にドラゴンがいる場合_____3ダメージを与える。)
 		if ID == 'DRG_072':
-			if haveDragon():
+			if haveDragon(game):
 				cond1.append(['dragon','' ,''])
 			pass
 			#[DRG_072][スカイフィン](<b>雄叫び:</b>自分の手札にドラゴンがいる場合ランダムなマーロックを2体召喚する。)
 		if ID == 'DRG_081':
-			if haveDragon():
+			if haveDragon(game):
 				cond1.append(['dragon','' ,''])
 			pass
 			#[DRG_081][スケイルライダー]([x]<b>雄叫び:</b>自分の手札にドラゴンがいる場合_____2ダメージを与える。)
 		if ID == 'GIL_526':
-			if haveDragon():
+			if haveDragon(game):
 				cond1.append(['dragon','' ,''])
 			pass
 			#[GIL_526][ワームガード]([x]<b>雄叫び:</b>自分の手札にドラゴンがいる場合攻撃力+1と<b>挑発</b>を獲得する。)
 		if ID == 'KAR_033':
-			if haveDragon():
+			if haveDragon(game):
 				cond1.append(['dragon','' ,''])
 			pass
 			#[KAR_033][ブック・ワーム]([x]<b>雄叫び:</b>自分の手札にドラゴンがいる場合攻撃力3以下の敵の______ミニオン1体を破壊する。_)
 		if ID == 'GIL_601':
-			if haveDragon():
+			if haveDragon(game):
 				cond1.append(['dragon','' ,''])
 			pass
 			#[GIL_601][スケイルワーム]([x]<b>雄叫び:</b>自分の手札にドラゴンがいる場合攻撃力+1と<b>急襲</b>を獲得する。)
 		if ID == 'KAR_062':
-			if haveDragon():
+			if haveDragon(game):
 				cond1.append(['dragon','' ,''])
 			pass
 			#[KAR_062][ネザースパイトの歴史家]([x]<b>雄叫び:</b>自分の手札にドラゴンがいる場合____ドラゴン1体を<b>発見</b>する。)
 		if ID == 'TRL_523':
-			if haveDragon():
+			if haveDragon(game):
 				cond1.append(['dragon','' ,''])
 			pass
 			#[TRL_523][ファイアーツリーの呪術医]([x]<b>雄叫び:</b>自分の手札にドラゴンがいる場合_____呪文を1つ<b>発見</b>する。)
 		if ID == 'TRL_569':
-			if haveDragon():
+			if haveDragon(game):
 				cond1.append(['dragon','' ,''])
 			pass
 			#[TRL_569][ドッカンドラゴン](<b>雄叫び:</b>自分の手札にドラゴンがいる場合敵のミニオン1体に__7ダメージを与える。)
 		if ID == 'DRG_063':
-			if heHasDragon():
+			if haveDragon(game):
 				cond1.append(['dragon','' ,''])
 			pass
 			#[DRG_063][ドラゴンモーの密猟者](<b>雄叫び:</b>相手の陣地にドラゴンがいる場合、+4/+4と<b>急襲</b>を獲得する。)
 		if ID == 'DRG_089':
-			if haveNoDuplicate():
+			if haveNoDuplicate(game):
 				cond1.append(['dragon','' ,''])
 			pass
 			#[DRG_089][竜の女王アレクストラーザ]([x]<b>雄叫び:</b>_自分のデッキに重複するカードがない場合
@@ -2770,6 +2770,8 @@ def RogueCat_Condition(game, card, target):
 
 ############### キーワード #####################	
 	if 'コンボ' in dscrpt:
+		if player.combo:
+			pass
 #[AT_028][シャドーパン騎兵](<b>コンボ:</b> 攻撃力+3を獲得する。)
 #[AT_030][アンダーシティの勇士](<b>コンボ:</b> 1ダメージを与える。)
 #[BOT_576][イカレた化学者]([x]<b>コンボ:</b>味方のミニオン1体に__攻撃力+4を付与する。)
@@ -2805,8 +2807,6 @@ def RogueCat_Condition(game, card, target):
 #[UNG_063][カミツキソウ](<b>コンボ:</b> このターン中で先に使用されたカード1枚につき+1/+1を獲得する。)
 #[UNG_064][ヴァイルスパイン・スレイヤー](<b>コンボ:</b>ミニオン1体を破壊する。)
 #[YOD_017][影の彫刻家]([x]<b>コンボ:</b>このターン中に先に使用されたカード1枚につきカードを1枚引く。)
-		if player.combo:
-			cond1 += 2
 	elif '味方に海賊がいる' in dscrpt or '味方の海賊' in dscrpt:
 #[AT_032][闇商人]([x]<b>雄叫び:</b>味方に海賊がいる場合___+1/+1を獲得する。)
 #[AT_070][空賊船長クラッグ](<b>突撃ィィィィ</b>味方の海賊1体につきコストが（1）減る。)
@@ -2872,3 +2872,17 @@ def haveDragon(game):
 		if card.race == Race.DRAGON:
 			return True
 	return False
+
+def noDeck(game):
+   player = game.current_player
+   return len(player.deck)==0
+
+def noHand(game):
+   player = game.current_player
+   return len(player.hand)==0
+
+def noCharacter(game):
+   player = game.current_player
+   return len(player.characters)==0
+
+
