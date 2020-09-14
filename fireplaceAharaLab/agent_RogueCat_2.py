@@ -932,7 +932,7 @@ def RogueCat_condition_battlecry(game,ID):
 			myCondition.append(['battlecry','', ''])
 			#キノコ酒造師 : <b>雄叫び:</b>体力を#4回復する。
 		elif ID == 'LOOT_347':
-			myCondition.append(['battlecry','', ''])
+			myCondition.append(['battlecry','True', 'damage'])
 			#コボルトの弟子 : [x]<b>雄叫び:</b>合計3ダメージを敵にランダムに振り分ける。
 		elif ID == 'LOOT_357':
 			myCondition.append(['battlecry','', ''])
@@ -1308,7 +1308,7 @@ def RogueCat_condition_battlecry(game,ID):
 			myCondition.append(['battlecry','', ''])
 			#原始フィンの見張り番 : [x]<b>雄叫び:</b>自分の陣地に他のマーロックがいる場合マーロック1体を<b>発見</b>する。
 		elif ID == 'UNG_946':
-			myCondition.append(['battlecry','', ''])
+			myCondition.append(['battlecry','heHasWeapon(game)', 'help'])
 			#暴蝕ウーズ : <b>雄叫び:</b>敵の武器を破壊しその攻撃力に等しい装甲を獲得する。
 	elif 'YOD_' in ID:
 		if ID == 'YOD_028':

@@ -487,6 +487,9 @@ def RogueCat_Condition(game, card, target) -> list:
 		if ID  == 'CFM_658':
 			myCondition.append(['death','', ''])
 			#奥部屋の用心棒 : [x]味方のミニオンが死ぬ度、攻撃力+1を獲得する。
+		elif ID  == 'GIL_819':
+			myCondition.append(['death','onMinion(game)', 'drawCard'])
+			#魔女の大釜: [x]味方のミニオンが死亡したのち、ランダムなシャーマンの呪文1枚を______自分の手札に追加する。
 		elif ID  == 'GVG_106':
 			myCondition.append(['death','', ''])
 			#ジャンクロボ : [x]味方のメカが死ぬ度+2/+2を獲得する。
@@ -614,6 +617,14 @@ def heHasTaunt(game):
 			return True
 	return False
 
+def heHasWeapon(game):
+	player = game.current_player.opponent
+	for card in player.characters:
+		if card.type == CardType.WEAPON:
+			return True
+	return False
+
+
 def haveNoDuplicate(game):
 	player = game.current_player
 	for card1 in player.field:
@@ -645,7 +656,7 @@ def onPirate(game):
 
 def onWeapon(game):
 	player = game.current_player
-	for card in player.field:
+	for card in player.characters:
 		if card.type == CardType.WEAPON:
 			return True
 	return False
