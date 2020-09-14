@@ -29,9 +29,9 @@ def printAllRogueCards():
 		collection.append(cls)
 	for card in collection:
 		dscrpt = card.description
-		if '急襲' in dscrpt:
+		if ('カードを使う' in dscrpt or '召喚する' in dscrpt or '場に出す' in dscrpt or '使用する' in dscrpt or 'ミニオンがいる' in dscrpt) and '<b>' not in dscrpt:
 			print("		elif ID  == '%s':"%(card.id))
-			print("			myCondition.append(['rush','', ''])")
+			print("			myCondition.append(['playCard','', ''])")
 			print("			#%s : %s"%(card.name, card.description.replace('\n','')))
 	return collection
 
@@ -43,10 +43,10 @@ def RogueCatAI(game, option=[], debugLog=False):
 			if debugLog:
 				print( '--------------------------')
 				for n in range(len(myCandidate)):
-					myC = RogueCat_Condition(game, myCandidate[n].card, myCandidate[n].target)
 					card = myCandidate[n].card
 					target = myCandidate[n].target
-					print("%s : %s"%(card.data.name, card.data.description.replace('\n','')))
+					myC = RogueCat_Condition(game, card, target)
+					print("%r %s : %s"%(card.id, card.data.name, card.data.description.replace('\n','')))
 					print("->%r"%target)
 					for repeat in range(len(myC)):
 						print("%s"%myC[repeat])
@@ -72,20 +72,20 @@ def RogueCat_Condition(game, card, target) -> list:
 	myTauntH = 0
 	myMinionH = 0
 	myAttack = 0
-	for card in player.characters:
-		if card.can_attack():
-			myAttack += card.atk
-		if card.taunt:
-			myTauntH += card.health
-		if card.type == CardType.MINION:
-			myMinionH += card.health
+	for cd in player.characters:
+		if cd.can_attack():
+			myAttack += cd.atk
+		if cd.taunt:
+			myTauntH += cd.health
+		if cd.type == CardType.MINION:
+			myMinionH += cd.health
 	hisTauntH = 0
 	hisAttack = 0
-	for card in player.opponent.characters:
-		if card.can_attack():
-			hisAttack += card.atk
-		if card. taunt:
-			hisTauntH += card.health
+	for cd in player.opponent.characters:
+		if cd.can_attack():
+			hisAttack += cd.atk
+		if cd. taunt:
+			hisTauntH += cd.health
 	myHeroRemainder=myHeroHealth+myTauntH-hisAttack
 	hisHeroRemainder=hisHeroHealth+hisTauntH-myAttack
 	myMinionRemainder=myMinionH
@@ -95,7 +95,7 @@ def RogueCat_Condition(game, card, target) -> list:
 	if '激励' in dscrpt:#ヒーローパワーを使うと発動する
 		#基本的にいつでもあとまわし。内容によっては場との関連がありうる。
 		pass
-	if  card.charge:#
+	if '突撃' in dscrpt:# card.charge:#突撃
 		if ID == 'AT_070':
 			myCondition.append(['charge', 'myRemainder<hisRemainder', 'lessConst'])
 		elif ID in {'AT_125', 'UNG_099'}:
@@ -108,9 +108,9 @@ def RogueCat_Condition(game, card, target) -> list:
 		elif ID in {'CS2_124', 'AT_087', 'CS2_131', 'CS2_171', 'CS2_213', 'EX1_062', 'EX1_067', 'GVG_098'}:
 			myCondition.append(['charge', 'myRemainder<hisRemainder', None])
 		pass
-	if card.has_deathrattle:#断末魔
+	if '断末魔:' in dscrpt:#card.has_deathrattle:#断末魔
 		myCondition.extend( RogueCat_condition_deathrattle(game,ID))
-	if card.has_battlecry:#雄叫び
+	if '雄叫び:' in dscrpt:#card.has_battlecry:#雄叫び
 		myCondition.extend(RogueCat_condition_battlecry(game,ID))
 	if '秘策:' in dscrpt:
 		myCondition.extend(RogueCat_condition_secret(game,ID))
@@ -208,77 +208,315 @@ def RogueCat_Condition(game, card, target) -> list:
 #[TRL_546][凶暴なリクガメ]([x]<b>雄叫び:</b>自分のヒーローに___5ダメージを与える。)
 #[UNG_087][ビタータイド・ヒドラ](このミニオンがダメージを受ける度自分のヒーローに___3ダメージを与える。)
 
-#自分のヒーローがダメージを受ける度
-#ヒーローを攻撃する度
-#武器を装備する度
-
-#このミニオンに対して呪文を使用する度
-#このミニオンがダメージを受ける度
-#このミニオンが攻撃してミニオンを倒す度
-#このミニオンが攻撃する度
-#味方のミニオンが死ぬ度
-#キャラクターが回復を受ける度
-
-#自分が_呪文を使う度
-#プレイヤーが呪文を使う度
-
-#相手が呪文を使う度
+#####カード
+#自分がカードをデッキに混ぜる度
+#自分が<b>コンボ</b>カードを手札から使用する度
 #自分がカードを引く度
 #相手がカードを引く度
 #このカードが自分の手札にある間
-#<b>雄叫び</b>を持つカードを使う度
-#<b>雄叫び</b>を持つミニオンを召喚する度
-#自分がカードをデッキに混ぜる度
 #<b>秘策</b>が使用される度
-
-#自分がマーロックを召喚する度
-#ミニオンを召喚する度
 #カードを手札から使用する度
 #自分がミニオンを引く度
 #カードを手札から使用__する度
 #相手がカードを使う度
-#自分が海賊を召喚する度
-#ミニオンを場に出す度
-#味方のメカが死ぬ度
-#敵のミニオンが死ぬ度
-#自分の武器が破壊される度
-#味方のミニオンが死ぬ度
-
-#ミニオンを手札から使用する度
-#ミニオンが死ぬ度
 #自分が獣を引く度
-#手札から呪文が使用される度
-#隣接するミニオンがダメージを受ける度
-#自分のヒーローの体力を3以上回復する度
-#自分が<b>コンボ</b>カードを手札から使用する度
-#自分が武器を装備する度
-
-#自分の手札にドラゴンがいる場合
-#自分のヒーローの体力を3以上回復する度
-#ミニオンが死ぬ度
 #自分のデッキに重複するカードがない場合
-#自分のターンの終了時
-#ダメージを受けている間
-#このターンの間
-#自分のターンの開始時
+#自分の手札にドラゴンがいる場合
+#自分のデッキに重複するカードがない場合
 #自分が<b>コンボ</b>カードを手札から使用する度
 #自分がミニオンを手札から使用する度
-#このミニオンを除いて味方に2体以上のミニオンがいる場合
 
-
-
-
-
-#味方のミニオンが攻撃された時
-#自分のターンの終了時
-#このターンに自分が呪文を使用した___場合
+#####召喚
+#<b>雄叫び</b>を持つカードを使う度
+#<b>雄叫び</b>を持つミニオンを召喚する度
+#自分がマーロックを召喚する度
+#ミニオンを場に出す度
+#ミニオンを召喚する度
+#自分が海賊を召喚する度
+#ミニオンを手札から使用する度
 #味方に体力6以上のミニオンがいる場合
-#自分の武器の攻撃力が3以上ある場合
-#このミニオンの攻撃でミニオンが 死亡した時
-#自分のデッキに重複するカードがない場合
-#このターンの間のみ
 #相手の陣地に3体以上のミニオンがいる場合
+#このミニオンを除いて味方に2体以上のミニオンがいる場合
+	if ('カードを使う' in dscrpt or '召喚する' in dscrpt or '場に出す' in dscrpt or '使用する' in dscrpt or 'ミニオンがいる' in dscrpt):
+		if ID  == 'AT_035':
+			myCondition.append(['playCard','', ''])
+			#土蜘蛛 : [x]相手のデッキに「待ち伏せ！」3枚を混ぜる。「待ち伏せ！」が引かれた際自分の陣地に4/4の_____ネルビアンを1体召喚する。
+		elif ID  == 'BOT_280':
+			myCondition.append(['playCard','', ''])
+			#幻像術師 : [x]相手がミニオンを手札から使用した後そのミニオンの1/1のコピーを1体召喚する。
+		elif ID  == 'BRM_019':
+			myCondition.append(['playCard','', ''])
+			#ぐったりガブ呑み亭の常連 : [x]このミニオンがダメージを受けて生き延びた後「ぐったりガブ呑み亭の常連」をもう1体召喚する。
+		elif ID  == 'BRM_022':
+			myCondition.append(['playCard','', ''])
+			#ドラゴンの卵 : このミニオンがダメージを受ける度2/1のチビドラゴン1体を召喚する。
+		elif ID  == 'BT_255':
+			myCondition.append(['playCard','', ''])
+			#ケルサス・サンストライダー : [x]毎ターン、自分が使用する呪文のコストは3回目ごとに（0）になる。
+		elif ID  == 'BT_721':
+			myCondition.append(['playCard','', ''])
+			#飛び散る腐汁 : [x]自分のターンの終了時このミニオンと同じ攻撃力・体力の腐汁を1体召喚する。
+		elif ID  == 'CFM_637':
+			myCondition.append(['playCard','', ''])
+			#海賊パッチーズ : [x]自分が海賊を手札から使用した後自分のデッキからこの____ミニオンを召喚する。
+		elif ID  == 'DAL_550':
+			myCondition.append(['playCard','', ''])
+			#最下層ウーズ : [x]このミニオンがダメージを受けて生き延びた後このミニオンのコピーを1体召喚する。
+		elif ID  == 'DAL_553':
+			myCondition.append(['playCard','', ''])
+			#悪い大噛み魔術師 : [x]自分のターンの終了時ランダムなコスト6のミニオン1体を召喚する。
+		elif ID  == 'DAL_558':
+			myCondition.append(['playCard','', ''])
+			#大魔術師ヴァルゴス : [x]自分のターンの終了時自分がこのターンに使用した呪文1つを再使用する。<i>（対象はランダム）</i>
+		elif ID  == 'DAL_774':
+			myCondition.append(['playCard','', ''])
+			#異境の乗騎売り : [x]自分が呪文を使う度ランダムなコスト3の__獣1体を召喚する。
+		elif ID  == 'DRG_056':
+			myCondition.append(['playCard','', ''])
+			#パラシュート・パイレート : [x]自分が海賊を手札から使用した後自分の手札から____このミニオンを召喚する。
+		elif ID  == 'DRG_091':
+			myCondition.append(['playCard','', ''])
+			#シュ＝マ : [x]自分のターンの終了時自分の陣地に1/1の「触手」を可能な限り召喚する。
+		elif ID  == 'EX1_076':
+			myCondition.append(['playCard','', ''])
+			#ポケットサイズの召喚師 : 毎ターン最初に手札から使用するミニオンのコストが（1）減る。
+		elif ID  == 'EX1_145':
+			myCondition.append(['playCard','', ''])
+			#段取り : [x]このターン自分が次に使用する呪文のコストが（2）減る。
+		elif ID  == 'EX1_509':
+			myCondition.append(['playCard','', ''])
+			#マーロックのタイドコーラー : [x]自分がマーロックを召喚する度___攻撃力+1を獲得する。
+		elif ID  == 'EX1_597':
+			myCondition.append(['playCard','', ''])
+			#インプ使い : [x]自分のターンの終了時このミニオンに1ダメージを与え1/1のインプを1体召喚する。
+		elif ID  == 'EX1_614':
+			myCondition.append(['playCard','', ''])
+			#ザヴィウス : [x]自分がカードを手札から使用した後2/1のサテュロスを1体召喚する。
+		elif ID  == 'FP1_013':
+			myCondition.append(['playCard','', ''])
+			#ケルスザード : [x]各ターンの終了時そのターンに死亡した味方のミニオン全てを召喚する。
+		elif ID  == 'GIL_620':
+			myCondition.append(['playCard','', ''])
+			#人形師ドリアン : [x]自分がミニオンを引く度、そのミニオンの1/1のコピーを1体召喚する。
+		elif ID  == 'GVG_016':
+			myCondition.append(['playCard','', ''])
+			#フェル・リーヴァー : 相手がカードを使う度自分のデッキの上から3枚のカードを捨てる。
+		elif ID  == 'GVG_104':
+			myCondition.append(['playCard','', ''])
+			#ホブゴブリン : [x]自分が攻撃力1のミニオンを場に出す度そのミニオンに______+2/+2を付与する。
+		elif ID  == 'GVG_116':
+			myCondition.append(['playCard','', ''])
+			#メカジニア・サーマプラッグ : 敵のミニオンが死ぬ度に、レプラノームを1体召喚する。
+		elif ID  == 'GVG_118':
+			myCondition.append(['playCard','', ''])
+			#アーシネイター・トログザー : 相手が呪文を使う度バーリー・ロックジョー・トログを1体召喚する。
+		elif ID  == 'ICC_900':
+			myCondition.append(['playCard','', ''])
+			#壊死のガイスト : [x]このミニオンを除く味方のミニオンが死ぬ度、2/2のグールを1体召喚する。
+		elif ID  == 'ICC_911':
+			myCondition.append(['playCard','', ''])
+			#号泣のバンシー : [x]自分がカードを使う度自分のデッキの上から3枚のカードを除去する。
+		elif ID  == 'LOE_053':
+			myCondition.append(['playCard','', ''])
+			#西風のジニー : [x]自分がこのミニオンを除く、味方のミニオンに呪文を使用した後、その呪文をコピーし、このミニオンに対して使用する。
+		elif ID  == 'LOE_086':
+			myCondition.append(['playCard','', ''])
+			#召喚石 : 自分が呪文を使う度同コストのランダムなミニオン1体を召喚する。
+		elif ID  == 'LOE_107':
+			myCondition.append(['playCard','', ''])
+			#不気味な像 : [x]戦場に他のミニオンがいると攻撃できない。
+		elif ID  == 'LOOT_394':
+			myCondition.append(['playCard','', ''])
+			#ワメキノコ : [x]自分のターンの終了時ランダムなコスト1のミニオン1体を召喚する。
+		elif ID  == 'LOOT_414':
+			myCondition.append(['playCard','', ''])
+			#記録保管大臣 : [x]自分のターンの終了時自分のデッキにある呪文1つを使用する。<i>__（対象はランダムに選択）</i>
+		elif ID  == 'NEW1_026':
+			myCondition.append(['playCard','', ''])
+			#ヴァイオレット・アイの講師 : [x]自分が呪文を使う度1/1のヴァイオレット・アイの徒弟を1体召喚する。
+		elif ID  == 'SCH_537':
+			myCondition.append(['playCard','', ''])
+			#魔術のトーテム : [x]自分のターンの終了時コスト（3）以下のランダムな呪文を1つ使用する。
+		elif ID  == 'TRL_507':
+			myCondition.append(['playCard','', ''])
+			#シャークフィンのファン : [x]自分のヒーローが攻撃した後1/1の海賊を1体召喚する。
+		elif ID  == 'ULD_286':
+			myCondition.append(['playCard','', ''])
+			#死の影 : [x]ミニオン1体を選択する。引かれた際そのコピー1体を召喚する「影」3枚を自分のデッキに混ぜる。
+		elif ID  == 'ULD_290':
+			myCondition.append(['playCard','', ''])
+			#歴史愛好家 : [x]自分がミニオンを手札から使用する度自分の手札のランダムなミニオン1体に+1/+1を付与する。
+		elif ID  == 'UNG_843':
+			myCondition.append(['playCard','', ''])
+			#ヴォラックス : 自分がこのミニオンに呪文を使用した後1/1の植物を1体召喚し呪文のコピーをその植物に対して使用する。
+		pass
+
+#####体力など
+#自分のヒーローの体力を3以上回復する度
+#キャラクターが回復を受ける度
+#自分のヒーローがダメージを受ける度
+#このミニオンがダメージを受ける度
+#隣接するミニオンがダメージを受ける度
+#自分のヒーローの体力を3以上回復する度
+#ダメージを受けている間
+
+#####装備
+#自分が武器を装備する度
+	if '武器' in dscrpt:
+		if ID  == 'AT_029':
+			myCondition.append(['weapon','', ''])
+			#バッカニーア : 自分が武器を装備する度、その武器に攻撃力+1を付与する。
+		elif ID  == 'AT_034':
+			myCondition.append(['weapon','', ''])
+			#毒仕込みの刃 : 自分のヒーローパワーはこの武器と置き換わる代わりに、この武器に攻撃力+1を付与する。
+		elif ID  == 'CFM_325':
+			myCondition.append(['weapon','', ''])
+			#ちんけなバッカニーア : [x]自分のヒーローが武器を装備している場合攻撃力+2を得る。
+		elif ID  == 'CS2_074':
+			myCondition.append(['weapon','', ''])
+			#致死毒 : 自分の武器に攻撃力+2を付与する。
+		elif ID  == 'CS2_233':
+			myCondition.append(['weapon','', ''])
+			#千刃乱舞 : 自分の武器を破壊しその攻撃力に等しいダメージを敵のミニオン全てに与える。
+		elif ID  == 'GVG_022':
+			myCondition.append(['weapon','', ''])
+			#ティンカーの刃研ぎ油 : 自分の武器に攻撃力+3を付与する。<b>コンボ:</b> ランダムな味方のミニオン1体に攻撃力+3を付与する。
+		elif ID  == 'SCH_519':
+			myCondition.append(['weapon','', ''])
+			#ヴァルペラの毒刃研究者 : 自分の武器は攻撃力+2を得る。
+		elif ID  == 'SCH_623':
+			myCondition.append(['weapon','', ''])
+			#斧刀講 : [x]カードを2枚引く。自分の武器の攻撃力1につきコストが（1）減る。
+
+
+#####攻撃
+#ヒーローを攻撃する度
+#このミニオンが攻撃してミニオンを倒す度
+#このミニオンが攻撃する度
+#味方のミニオンが攻撃された時
+
+#####呪文
+	if '呪文' in dscrpt:
+		if ID  == 'AT_129':
+			myCondition.append(['spell','', ''])
+			#フィヨラ・ライトベイン : <b>自分</b>がこのミニオンに対して呪文を使用する度<b>聖なる盾</b>を獲得する。
+		elif ID  == 'AT_131':
+			myCondition.append(['spell','', ''])
+			#エイディス・ダークベイン : [x]<b>自分</b>がこのミニオンに対して呪文を使用する度ランダムな敵に_____3ダメージを与える。
+		elif ID  == 'BOT_098':
+			myCondition.append(['spell','', ''])
+			#パワー切れのモーラー : [x]このターンに自分が呪文を使用した___場合のみ攻撃できる。
+		elif ID  == 'BRM_020':
+			myCondition.append(['spell','', ''])
+			#ドラゴンキン・ソーサラー : [x]<b>自分</b>がこのミニオンに対して呪文を使用する度+1/+1を獲得する。
+		elif ID  == 'BT_709':
+			myCondition.append(['spell','', ''])
+			#汚い手 : [x]<b>秘策:</b>相手が呪文を使用した後カードを2枚引く。
+		elif ID  == 'CFM_060':
+			myCondition.append(['spell','', ''])
+			#レッド・マナ・ワーム : [x]自分が呪文を使う度攻撃力+2を獲得する。
+		elif ID  == 'CFM_669':
+			myCondition.append(['spell','', ''])
+			#強盗ログ : [x]相手が呪文を使う度自分の手札に「コイン」1枚を追加する。
+		elif ID  == 'CFM_807':
+			myCondition.append(['spell','', ''])
+			#競売王ビアードオ : [x]自分が呪文を使用した後自分のヒーローパワーを再度使用可能にする。
+		elif ID  == 'DAL_774':
+			myCondition.append(['spell','', ''])
+			#異境の乗騎売り : [x]自分が呪文を使う度ランダムなコスト3の__獣1体を召喚する。
+		elif ID  == 'EX1_055':
+			myCondition.append(['spell','', ''])
+			#マナ中毒者 : [x]自分が呪文を使う度そのターンの間攻撃力+2を獲得する。
+		elif ID  == 'EX1_095':
+			myCondition.append(['spell','', ''])
+			#ガジェッツァンの競売人 : 自分が呪文を使う度カードを1枚引く。
+		elif ID  == 'EX1_100':
+			myCondition.append(['spell','', ''])
+			#探話士チョー : プレイヤーが呪文を使う度、もう1人のプレイヤーの手札にその呪文のコピーを追加する。
+		elif ID  == 'EX1_187':
+			myCondition.append(['spell','', ''])
+			#魔力喰らい : [x]自分が呪文を使う度+2/+2を獲得する。
+		elif ID  == 'GVG_028':
+			myCondition.append(['spell','', ''])
+			#商大公ガリーウィックス : [x]相手が呪文を使う度自分はその呪文のコピー1枚を獲得し、相手は「ガリーウィックスの______コイン」1枚を獲得する。_
+		elif ID  == 'GVG_067':
+			myCondition.append(['spell','', ''])
+			#ストーンスプリンター・トログ : [x]相手が呪文を使う度攻撃力+1を獲得する。
+		elif ID  == 'GVG_068':
+			myCondition.append(['spell','', ''])
+			#バーリー・ロックジョー・トログ : [x]相手が呪文を使う度攻撃力+2を獲得する。
+		elif ID  == 'GVG_118':
+			myCondition.append(['spell','', ''])
+			#アーシネイター・トログザー : 相手が呪文を使う度バーリー・ロックジョー・トログを1体召喚する。
+		elif ID  == 'ICC_201':
+			myCondition.append(['spell','', ''])
+			#骰は投げられた : [x]カードを1枚引く。そのカードが<b>断末魔</b>を持つ場合、再度この呪文を使用する。
+		elif ID  == 'KAR_036':
+			myCondition.append(['spell','', ''])
+			#魔力異常体 : [x]自分が呪文を使う度このミニオンに体力+1を付与する。
+		elif ID  == 'LOE_053':
+			myCondition.append(['spell','', ''])
+			#西風のジニー : [x]自分がこのミニオンを除く、味方のミニオンに呪文を使用した後、その呪文をコピーし、このミニオンに対して使用する。
+		elif ID  == 'LOE_086':
+			myCondition.append(['spell','', ''])
+			#召喚石 : 自分が呪文を使う度同コストのランダムなミニオン1体を召喚する。
+		elif ID  == 'LOOT_130':
+			myCondition.append(['spell','', ''])
+			#魔力の暴帝 : [x]このターンにコスト（5）以上の呪文を使用していた場合コスト（0）。
+		elif ID  == 'NEW1_020':
+			myCondition.append(['spell','', ''])
+			#熱狂する火霊術師 : [x]自分が呪文を使用した後全てのミニオンに1ダメージを与える。
+		elif ID  == 'NEW1_026':
+			myCondition.append(['spell','', ''])
+			#ヴァイオレット・アイの講師 : [x]自分が呪文を使う度1/1のヴァイオレット・アイの徒弟を1体召喚する。
+		elif ID  == 'SCH_157':
+			myCondition.append(['spell','', ''])
+			#魔法の大釜 : [x]<b>魔法活性:</b>使われた呪文と同コストのランダムな呪文を使用する。
+		elif ID  == 'SCH_710':
+			myCondition.append(['spell','', ''])
+			#往餓術師 : [x]相手が呪文を使う度<b>挑発</b>を持つ2/2のスケルトンを1体召喚する。
+		elif ID  == 'SCH_714':
+			myCondition.append(['spell','', ''])
+			#英才エレク : [x]手札から呪文が使用される度このミニオンはそれを記憶する。<b>断末魔:</b>_記憶した呪文全てを___自分のデッキに混ぜる。
+		elif ID  == 'UNG_843':
+			myCondition.append(['spell','', ''])
+			#ヴォラックス : 自分がこのミニオンに呪文を使用した後1/1の植物を1体召喚し呪文のコピーをその植物に対して使用する。
+
+#####死去
+	if '死' in dscrpt:
+		if ID  == 'CFM_658':
+			myCondition.append(['death','', ''])
+			#奥部屋の用心棒 : [x]味方のミニオンが死ぬ度、攻撃力+1を獲得する。
+		elif ID  == 'GVG_106':
+			myCondition.append(['death','', ''])
+			#ジャンクロボ : [x]味方のメカが死ぬ度+2/+2を獲得する。
+		elif ID  == 'GVG_116':
+			myCondition.append(['death','', ''])
+			#メカジニア・サーマプラッグ : 敵のミニオンが死ぬ度に、レプラノームを1体召喚する。
+		elif ID  == 'ICC_900':
+			myCondition.append(['death','', ''])
+			#壊死のガイスト : [x]このミニオンを除く味方のミニオンが死ぬ度、2/2のグールを1体召喚する。
+		elif ID  == 'LOOT_149':
+			myCondition.append(['death','', ''])
+			#回廊漁り蟲 : [x]このカードが手札にある間ミニオンが死ぬ度コストが（1）減る。
+		elif ID  == 'tt_004':
+			myCondition.append(['death','', ''])
+			#屍肉喰いのグール : [x]ミニオンが死ぬ度攻撃力+1を獲得する。
+
+#####ターン
 #自分のターンの終了時
+#自分のターンの終了時
+#このターンの間のみ
+#自分のターンの終了時
+#このターンの間
+#自分のターンの開始時
+
+
+
+
+
+
+
 	return myCondition
 
 
@@ -303,12 +541,15 @@ def haveDragon(game):
 			return True
 	return False
 
-def haveMinion(game):
+def haveMechanical(game):
 	player = game.current_player
-	for card in player.field:
-		if card.type == CardType.MINION:
+	for card in player.hand:
+		if card.race == Race.MECHANICAL:
 			return True
 	return False
+
+def haveMinion(game):
+	return onMinion(game)
 
 def havePirate(game):
 	player = game.current_player
@@ -317,12 +558,14 @@ def havePirate(game):
 			return True
 	return False
 
-def haveWeapon(game):
+def haveSecret(game):
 	player = game.current_player
-	for card in player.field:
-		if card.type == CardType.WEAPON:
-			return True
+	if len(player.secrets)>0:
+		return True
 	return False
+
+def haveWeapon(game):
+	return onWeapon(game)
 
 def noDeck(game):
 	player = game.current_player
@@ -379,9 +622,30 @@ def haveNoDuplicate(game):
 				return True
 	return False
 
+def OnMechanical(game):
+	player = game.current_player
+	for card in player.field:
+		if card.race == Race.MECHANICAL:
+			return True
+	return False
+
+def onMinion(game):
+	player = game.current_player
+	for card in player.field:
+		if card.type == CardType.MINION:
+			return True
+	return False
+
 def onPirate(game):
 	player = game.current_player
 	for card in player.field:
 		if card.race == Race.PIRATE:
+			return True
+	return False
+
+def onWeapon(game):
+	player = game.current_player
+	for card in player.field:
+		if card.type == CardType.WEAPON:
 			return True
 	return False

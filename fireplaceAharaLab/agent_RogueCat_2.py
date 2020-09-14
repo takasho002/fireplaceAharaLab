@@ -63,7 +63,7 @@ def RogueCat_condition_battlecry(game,ID):
 			#ガジェッツァンの槍試合選手 : [x]<b>雄叫び:</b> 各プレイヤーのデッキのミニオンを1枚ずつ表示する。自分のミニオンの方がコストが高い場合__+1/+1を獲得する。
 	elif 'BOT_' in ID:
 		if ID == 'BOT_079':
-			myCondition.append(['battlecry','', ''])
+			myCondition.append(['battlecry','haveMechanical() or OnMechanical()', 'help'])
 			#忠実ロボ・ルミ : [x]<b>雄叫び:</b>味方のメカ1体に__+1/+1を付与する。
 		elif ID == 'BOT_083':
 			myCondition.append(['battlecry','', ''])
@@ -252,7 +252,7 @@ def RogueCat_condition_battlecry(game,ID):
 			myCondition.append(['battlecry','', ''])
 			#ガジェッツァンのセレブ : <b>雄叫び:</b>体力を#2回復する。
 		elif ID == 'CFM_667':
-			myCondition.append(['battlecry','', ''])
+			myCondition.append(['battlecry','heHasMinion(game)', 'damage'])
 			#爆弾部隊 : [x]<b>雄叫び:</b> 敵のミニオン1体に5ダメージを与える。<b>断末魔:</b> 自分のヒーローに5ダメージを与える。
 		elif ID == 'CFM_668':
 			myCondition.append(['battlecry','', ''])
@@ -341,7 +341,7 @@ def RogueCat_condition_battlecry(game,ID):
 			myCondition.append(['battlecry','', ''])
 			#魔除けの宝石職人 : [x]<b>雄叫び:</b>次の自分のターンまで自分のヒーローは呪文とヒーローパワーの標的にならない。
 		elif ID == 'DAL_086':
-			myCondition.append(['battlecry','', ''])
+			myCondition.append(['battlecry','haveSecret(game)', 'help'])
 			#サンリーヴァーのスパイ : [x]<b>雄叫び:</b>自分の<b>秘策</b>が準備されている場合____+1/+1を獲得する。
 		elif ID == 'DAL_087':
 			myCondition.append(['battlecry','', ''])
