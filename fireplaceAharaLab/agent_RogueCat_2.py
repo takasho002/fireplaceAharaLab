@@ -63,7 +63,7 @@ def RogueCat_condition_battlecry(game,ID):
 			#ガジェッツァンの槍試合選手 : [x]<b>雄叫び:</b> 各プレイヤーのデッキのミニオンを1枚ずつ表示する。自分のミニオンの方がコストが高い場合__+1/+1を獲得する。
 	elif 'BOT_' in ID:
 		if ID == 'BOT_079':
-			myCondition.append(['battlecry','haveMechanical() or OnMechanical()', 'help'])
+			myCondition.append(['battlecry','haveMechanical(game) or OnMechanical(game)', 'help'])
 			#忠実ロボ・ルミ : [x]<b>雄叫び:</b>味方のメカ1体に__+1/+1を付与する。
 		elif ID == 'BOT_083':
 			myCondition.append(['battlecry','', ''])
