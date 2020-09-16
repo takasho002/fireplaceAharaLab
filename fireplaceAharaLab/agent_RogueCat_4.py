@@ -6,15 +6,6 @@ def RogueCat_condition_devineShield(game,ID):
 	elif ID == 'AT_095':
 		myCondition.append(['divineShield','', ''])
 		#静寂の騎士 : <b>隠れ身</b><b>聖なる盾</b>
-	elif ID == 'AT_112':
-		myCondition.append(['divineShield','', ''])
-		#槍試合の名手 : [x]<b>雄叫び:</b> 各プレイヤーのデッキのミニオンを1枚ずつ表示する。自分のミニオンの方がコストが高い場合、<b>挑発</b>と___<b>聖なる盾</b>を獲得する。
-	elif ID == 'AT_129':
-		myCondition.append(['divineShield','', ''])
-		#フィヨラ・ライトベイン : <b>自分</b>がこのミニオンに対して呪文を使用する度<b>聖なる盾</b>を獲得する。
-	elif ID == 'BOT_270':
-		myCondition.append(['divineShield','', ''])
-		#含み笑う発明家 : [x]<b>雄叫び:</b><b>挑発</b>と<b>聖なる盾</b>を持つ1/2のメカを__2体召喚する。
 	elif ID == 'BOT_414':
 		myCondition.append(['divineShield','', ''])
 		#クロークスケイルの化学者 : <b>隠れ身</b><b>聖なる盾</b>
@@ -24,9 +15,6 @@ def RogueCat_condition_devineShield(game,ID):
 	elif ID == 'BOT_548':
 		myCondition.append(['divineShield','', ''])
 		#ジリアックス : <b>超電磁</b><b>聖なる盾</b>、<b>挑発</b><b>生命奪取</b>、<b>急襲</b>
-	elif ID == 'BT_722':
-		myCondition.append(['divineShield','', ''])
-		#ガーディアン改造屋 : [x]<b>雄叫び:</b>ミニオン1体に1ダメージを与え_____<b>聖なる盾</b>を付与する。_
 	elif ID == 'DAL_078':
 		myCondition.append(['divineShield','', ''])
 		#旅の治療師 : <b>聖なる盾</b>、<b>雄叫び:</b>体力を#3回復する。
@@ -51,9 +39,6 @@ def RogueCat_condition_devineShield(game,ID):
 	elif ID == 'EX1_067':
 		myCondition.append(['divineShield','', ''])
 		#アージェントの司令官 : [x]<b>突撃</b>、<b>聖なる盾</b>
-	elif ID == 'EX1_590':
-		myCondition.append(['divineShield','', ''])
-		#ブラッドナイト : [x]<b>雄叫び:</b> 全てのミニオンは<b>聖なる盾</b>を失う。失われた聖なる盾1つにつき+3/+3を獲得する。
 	elif ID == 'GIL_202':
 		myCondition.append(['divineShield','', ''])
 		#ギルニーアスの近衛兵 : [x]<b>聖なる盾</b>、<b>急襲</b>このカードが自分の手札にある場合、毎ターンこれの攻撃力と体力を入れ替える。
@@ -63,21 +48,12 @@ def RogueCat_condition_devineShield(game,ID):
 	elif ID == 'GVG_085':
 		myCondition.append(['divineShield','', ''])
 		#マジウザ・オ・トロン : <b>挑発</b><b>聖なる盾</b>
-	elif ID == 'GVG_107':
-		myCondition.append(['divineShield','', ''])
-		#エンハンス・オ・メカーノ : <b>雄叫び:</b> 自身を除く味方のミニオンに<b>疾風</b>、<b>挑発</b>または___<b>聖なる盾</b>を付与する<i>（どれが付与されるかはランダム）。</i>
-	elif ID == 'ICC_912':
-		myCondition.append(['divineShield','', ''])
-		#躯の駆り手 : [x]<b>雄叫び:</b><b>挑発</b>を持つミニオンが自分のデッキにある場合、<b>挑発</b>を獲得。同様に<b>聖なる盾</b>、<b>生命奪取</b>、<b>疾風</b>も獲得可能。
 	elif ID == 'ICC_913':
 		myCondition.append(['divineShield','', ''])
 		#穢れし狂信者 : <b>聖なる盾</b><b>呪文ダメージ+1</b>
 	elif ID == 'LOOT_117':
 		myCondition.append(['divineShield','', ''])
 		#蝋のエレメンタル : <b>挑発</b><b>聖なる盾</b>
-	elif ID == 'LOOT_124':
-		myCondition.append(['divineShield','', ''])
-		#孤高の勇者 : [x]<b>雄叫び:</b>味方に他のミニオンがいない場合、<b>聖なる盾</b>と<b>挑発</b>を獲得する。
 	elif ID == 'LOOT_125':
 		myCondition.append(['divineShield','', ''])
 		#石肌のバジリスク : <b>聖なる盾</b><b>猛毒</b>
@@ -93,15 +69,9 @@ def RogueCat_condition_devineShield(game,ID):
 	elif ID == 'TRL_513':
 		myCondition.append(['divineShield','', ''])
 		#モッシュオグの審判 : <b>挑発</b>、<b>聖なる盾</b>
-	elif ID == 'ULD_178':
-		myCondition.append(['divineShield','', ''])
-		#シアマト : [x]<b>雄叫び:</b><b>急襲</b>、<b>挑発</b>、<b>聖なる盾</b><b>疾風</b>のうち、選択した___2つを獲得する。
 	elif ID == 'ULD_721':
 		myCondition.append(['divineShield','', ''])
 		#月の巨像 : <b>聖なる盾</b>、<b>蘇り</b>
-	elif ID == 'UNG_070':
-		myCondition.append(['divineShield','', ''])
-		#トルヴィアのストーンシェイパー : [x]<b>雄叫び:</b>前のターンに手札からエレメンタルを使用していた場合_______<b>挑発</b>と<b>聖なる盾</b>を獲得する。
 	return myCondition
 
 def RogueCat_condition_stealth(game,ID):
@@ -115,27 +85,12 @@ def RogueCat_condition_stealth(game,ID):
 	elif ID == 'BOT_555':
 		myCondition.append(['stealth','', ''])
 		#先遣者セレスティア : [x]<b>隠れ身</b>相手がミニオンを手札から使用した後そのミニオンの_コピーになる。
-	elif ID == 'BOT_562':
-		myCondition.append(['stealth','', ''])
-		#カッパーテイルモドキ : [x]<b>雄叫び:</b>次の自分のターンまで__<b>隠れ身</b>を獲得する。
 	elif ID == 'BT_701':
 		myCondition.append(['stealth','', ''])
 		#スパイミストレス : <b>隠れ身</b>
-	elif ID == 'BT_702':
-		myCondition.append(['stealth','', ''])
-		#アッシュタン・スレイヤー : [x]<b>雄叫び:</b><b>隠れ身</b>状態のミニオン1体にこのターンの間、攻撃力+3と<b>無敵</b>を付与する。
-	elif ID == 'BT_703':
-		myCondition.append(['stealth','', ''])
-		#呪われた流れ者 : [x]<b>断末魔:</b><b>隠れ身</b>を持つ7/5の影を1体召喚する。
-	elif ID == 'BT_710':
-		myCondition.append(['stealth','', ''])
-		#グレイハート族の賢者 : [x]<b>雄叫び:</b>味方に<b>隠れ身</b>状態のミニオンがいる場合______カードを2枚引く。__
 	elif ID == 'BT_713':
 		myCondition.append(['stealth','', ''])
 		#アカマ : [x]<b>隠れ身</b>、<b>断末魔:</b>「転生アカマ」を自分のデッキに混ぜる。
-	elif ID == 'BT_717':
-		myCondition.append(['stealth','', ''])
-		#穴掘りスコーピッド : [x]<b>雄叫び:</b>2ダメージを与える。これにより対象が死んだ場合<b>隠れ身</b>を獲得する。
 	elif ID == 'CFM_344':
 		myCondition.append(['stealth','', ''])
 		#飛刀手流忍者・六丸 : [x]<b>隠れ身</b>このミニオンの攻撃でミニオンが 死亡した時、自分のデッキからマーロックを2体召喚する。
@@ -145,15 +100,9 @@ def RogueCat_condition_stealth(game,ID):
 	elif ID == 'CFM_636':
 		myCondition.append(['stealth','', ''])
 		#シャドウ・レイジャー : <b>隠れ身</b>
-	elif ID == 'CFM_656':
-		myCondition.append(['stealth','', ''])
-		#裏街の探偵 : <b>雄叫び:</b> 敵のミニオンは<b>隠れ身</b>を失う。
 	elif ID == 'CFM_691':
 		myCondition.append(['stealth','', ''])
 		#翡翠の鎌刀 : [x]<b>隠れ身</b>、 <b>断末魔:</b>{0}の<b>翡翠のゴーレム</b>を1体召喚する。@[x]<b>隠れ身</b>、 <b>断末魔:</b><b>翡翠のゴーレム</b>を1体召喚する。
-	elif ID == 'CFM_694':
-		myCondition.append(['stealth','', ''])
-		#影の師匠 : [x]<b>雄叫び:</b><b>隠れ身</b>を持つミニオン1体に　+2/+2を付与する。
 	elif ID == 'CFM_781':
 		myCondition.append(['stealth','', ''])
 		#蒐集家シャク : [x]<b>隠れ身</b>このミニオンが攻撃する度相手のクラスのランダムなカード1枚を自分の手札に追加する。
@@ -163,9 +112,6 @@ def RogueCat_condition_stealth(game,ID):
 	elif ID == 'DAL_090':
 		myCondition.append(['stealth','', ''])
 		#ヘンチ・クランの隠密 : <b>隠れ身</b>
-	elif ID == 'DRG_074':
-		myCondition.append(['stealth','', ''])
-		#擬装した飛行船 : [x]<b>雄叫び:</b>次の自分のターンまで自身を除く味方のメカに<b>隠れ身</b>を付与する。
 	elif ID == 'EX1_010':
 		myCondition.append(['stealth','', ''])
 		#ウォーゲンのスパイ : <b>隠れ身</b>
@@ -184,9 +130,9 @@ def RogueCat_condition_stealth(game,ID):
 	elif ID == 'FP1_005':
 		myCondition.append(['stealth','', ''])
 		#ナクスラーマスの亡霊 : <b>隠れ身:</b> 自分のターンの開始時+1/+1を獲得する。
-	elif ID == 'GVG_025':
-		myCondition.append(['stealth','', ''])
-		#隻眼のチート : [x]自分が海賊を召喚する度、<b>隠れ身</b>を獲得する。
+#	elif ID == 'GVG_025':
+#		myCondition.append(['stealth','', ''])
+#		#隻眼のチート : [x]自分が海賊を召喚する度、<b>隠れ身</b>を獲得する。
 	elif ID == 'GVG_081':
 		myCondition.append(['stealth','', ''])
 		#ギルブリン・ストーカー : <b>隠れ身</b>
@@ -202,9 +148,6 @@ def RogueCat_condition_stealth(game,ID):
 	elif ID == 'LOOT_136':
 		myCondition.append(['stealth','', ''])
 		#潜む悪鬼 : <b>隠れ身</b>自身を除く味方のミニオンは攻撃力+1を得る。
-	elif ID == 'NEW1_014':
-		myCondition.append(['stealth','', ''])
-		#変装の達人 : <b>雄叫び:</b> 次の自分のターンまで味方のミニオン1体に<b>隠れ身</b>を付与する。
 	elif ID == 'OG_247':
 		myCondition.append(['stealth','', ''])
 		#ウォーゲン変異体 : <b>隠れ身</b>
@@ -243,96 +186,98 @@ def RogueCat_condition_stealth(game,ID):
 def RogueCat_condition_spellDamage(game,ID):
 	myCondition=[]
 	#攻撃呪文カードを持っていたら+2
-	if ID == 'AT_093':
-		myCondition.append(['spellDamage','', ''])
-		#極寒のスノボルト : <b>呪文ダメージ+1</b>
-	elif ID == 'AT_117':
-		myCondition.append(['spellDamage','', ''])
-		#司会者 : <b>雄叫び:</b> 味方に<b>呪文ダメージ</b>を持つミニオンがいる場合、+2/+2を獲得する。
-	elif ID == 'BT_008':
-		myCondition.append(['spellDamage','', ''])
-		#錆鉄の入門者 : [x]<b>断末魔:</b><b>呪文ダメージ+1</b>を持つ1/1の「インプキャスター」を1体召喚する。
-	elif ID == 'BT_724':
-		myCondition.append(['spellDamage','', ''])
-		#イセリアル改造屋 : [x]<b>雄叫び:</b>ミニオン1体に1ダメージを与え<b>呪文ダメージ+1</b>を付与する。
-	elif ID == 'CFM_039':
-		myCondition.append(['spellDamage','', ''])
-		#路上のトリックスター : <b>呪文ダメージ+1</b>
-	elif ID == 'CS2_142':
-		myCondition.append(['spellDamage','', ''])
-		#コボルトの地霊術師 : <b>呪文ダメージ+1</b>
-	elif ID == 'CS2_155':
-		myCondition.append(['spellDamage','', ''])
-		#大魔術師 : <b>呪文ダメージ+1</b>
-	elif ID == 'CS2_197':
-		myCondition.append(['spellDamage','', ''])
-		#オーガのメイジ達 : <b>呪文ダメージ+1</b>
-	elif ID == 'DAL_089':
-		myCondition.append(['spellDamage','', ''])
-		#呪文書綴じ師 : [x]<b>雄叫び:</b>自分が<b>呪文ダメージ</b>を持っている場合____カードを1枚引く。
-	elif ID == 'DAL_096':
-		myCondition.append(['spellDamage','', ''])
-		#ヴァイオレット監獄の看守 : <b>挑発</b><b>呪文ダメージ+1</b>
-	elif ID == 'DAL_434':
-		myCondition.append(['spellDamage','', ''])
-		#魔力の番人 : [x]自分が<b>呪文ダメージ</b>を持っていない限り攻撃できない。
-	elif ID == 'DAL_548':
-		myCondition.append(['spellDamage','', ''])
-		#アゼライト・エレメンタル : [x]自分のターンの開始時<b>呪文ダメージ+2</b>を得る。
-	elif ID == 'DAL_748':
-		myCondition.append(['spellDamage','', ''])
-		#マナタンク : <b>呪文ダメージ+1</b>
-	elif ID == 'EX1_012':
-		myCondition.append(['spellDamage','', ''])
-		#ブラッドメイジ・サルノス : [x]<b>呪文ダメージ+1</b><b>断末魔:</b>カードを1枚引く。
-	elif ID == 'EX1_284':
-		myCondition.append(['spellDamage','', ''])
-		#アジュア・ドレイク : [x]<b>呪文ダメージ+1</b><b>雄叫び:</b>カードを1枚引く。
-	elif ID == 'EX1_563':
-		myCondition.append(['spellDamage','', ''])
-		#マリゴス : <b>呪文ダメージ+5</b>
-	elif ID == 'EX1_582':
-		myCondition.append(['spellDamage','', ''])
-		#ダラランのメイジ : <b>呪文ダメージ+1</b>
-	elif ID == 'EX1_584':
-		myCondition.append(['spellDamage','', ''])
-		#老練のメイジ : [x]<b>雄叫び:</b> 隣接するミニオンに<b>呪文ダメージ+1</b>を付与する。
-	elif ID == 'GIL_121':
-		myCondition.append(['spellDamage','', ''])
-		#ダークマイア・ムーンキン : <b>呪文ダメージ+2</b>
-	elif ID == 'GIL_529':
-		myCondition.append(['spellDamage','', ''])
-		#スペルシフター : [x]<b>呪文ダメージ+1</b>このカードが自分の手札にある場合、毎ターンこれの攻撃力と体力を入れ替える。
-	elif ID == 'GVG_109':
-		myCondition.append(['spellDamage','', ''])
-		#ミニ・メイジ : [x]<b>呪文ダメージ+1</b><b>隠れ身</b>
-	elif ID == 'ICC_093':
-		myCondition.append(['spellDamage','', ''])
-		#タスカーの漁師 : [x]<b>雄叫び:</b>味方のミニオン1体に<b>呪文ダメージ+1</b>を付与する。
-	elif ID == 'ICC_856':
-		myCondition.append(['spellDamage','', ''])
-		#スペルウィーヴァー : <b>呪文ダメージ+2</b>
-	elif ID == 'ICC_913':
-		myCondition.append(['spellDamage','', ''])
-		#穢れし狂信者 : <b>聖なる盾</b><b>呪文ダメージ+1</b>
-	elif ID == 'OG_082':
-		myCondition.append(['spellDamage','', ''])
-		#コボルトの地霊呪痛死 : <b>呪文ダメージ+2</b>
-	elif ID == 'SCH_245':
-		myCondition.append(['spellDamage','', ''])
-		#筆記の執精 : [x]<b>呪文ダメージ+1</b><b>雄叫び:</b>___呪文を1つ<b>発見</b>する。
-	elif ID == 'SCH_270':
-		myCondition.append(['spellDamage','', ''])
-		#根源学の予習 : [x]<b>呪文ダメージ</b>を持つミニオンを1体<b>発見</b>する。自分が次に使用する<b>呪文ダメージ</b>を持つミニオンのコストが（1）減る。
-	elif ID == 'SCH_273':
-		myCondition.append(['spellDamage','', ''])
-		#ラス・フロストウィスパー : [x]自分のターンの終了時全ての敵に$1ダメージを与える<i>（<b>呪文ダメージ</b>によって__強化される）</i>。
-	elif ID == 'SCH_530':
-		myCondition.append(['spellDamage','', ''])
-		#代理鏡師 : [x]<b>雄叫び:</b>自分が<b>呪文ダメージ</b>を持っている場合このミニオンのコピーを1体召喚する。
-	elif ID == 'TRL_312':
-		myCondition.append(['spellDamage','', ''])
-		#強仙師 : ダメージを受けている間は<b>呪文ダメージ+2</b>を得る。
+	if haveSpellAttack(game):
+		myCondition.append(['spellDamage','',''])
+	#if ID == 'AT_093':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#極寒のスノボルト : <b>呪文ダメージ+1</b>
+	#elif ID == 'AT_117':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#司会者 : <b>雄叫び:</b> 味方に<b>呪文ダメージ</b>を持つミニオンがいる場合、+2/+2を獲得する。
+	#elif ID == 'BT_008':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#錆鉄の入門者 : [x]<b>断末魔:</b><b>呪文ダメージ+1</b>を持つ1/1の「インプキャスター」を1体召喚する。
+	#elif ID == 'BT_724':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#イセリアル改造屋 : [x]<b>雄叫び:</b>ミニオン1体に1ダメージを与え<b>呪文ダメージ+1</b>を付与する。
+	#elif ID == 'CFM_039':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#路上のトリックスター : <b>呪文ダメージ+1</b>
+	#elif ID == 'CS2_142':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#コボルトの地霊術師 : <b>呪文ダメージ+1</b>
+	#elif ID == 'CS2_155':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#大魔術師 : <b>呪文ダメージ+1</b>
+	#elif ID == 'CS2_197':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#オーガのメイジ達 : <b>呪文ダメージ+1</b>
+	#elif ID == 'DAL_089':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#呪文書綴じ師 : [x]<b>雄叫び:</b>自分が<b>呪文ダメージ</b>を持っている場合____カードを1枚引く。
+	#elif ID == 'DAL_096':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#ヴァイオレット監獄の看守 : <b>挑発</b><b>呪文ダメージ+1</b>
+	#elif ID == 'DAL_434':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#魔力の番人 : [x]自分が<b>呪文ダメージ</b>を持っていない限り攻撃できない。
+	#elif ID == 'DAL_548':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#アゼライト・エレメンタル : [x]自分のターンの開始時<b>呪文ダメージ+2</b>を得る。
+	#elif ID == 'DAL_748':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#マナタンク : <b>呪文ダメージ+1</b>
+	#elif ID == 'EX1_012':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#ブラッドメイジ・サルノス : [x]<b>呪文ダメージ+1</b><b>断末魔:</b>カードを1枚引く。
+	#elif ID == 'EX1_284':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#アジュア・ドレイク : [x]<b>呪文ダメージ+1</b><b>雄叫び:</b>カードを1枚引く。
+	#elif ID == 'EX1_563':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#マリゴス : <b>呪文ダメージ+5</b>
+	#elif ID == 'EX1_582':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#ダラランのメイジ : <b>呪文ダメージ+1</b>
+	#elif ID == 'EX1_584':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#老練のメイジ : [x]<b>雄叫び:</b> 隣接するミニオンに<b>呪文ダメージ+1</b>を付与する。
+	#elif ID == 'GIL_121':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#ダークマイア・ムーンキン : <b>呪文ダメージ+2</b>
+	#elif ID == 'GIL_529':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#スペルシフター : [x]<b>呪文ダメージ+1</b>このカードが自分の手札にある場合、毎ターンこれの攻撃力と体力を入れ替える。
+	#elif ID == 'GVG_109':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#ミニ・メイジ : [x]<b>呪文ダメージ+1</b><b>隠れ身</b>
+	#elif ID == 'ICC_093':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#タスカーの漁師 : [x]<b>雄叫び:</b>味方のミニオン1体に<b>呪文ダメージ+1</b>を付与する。
+	#elif ID == 'ICC_856':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#スペルウィーヴァー : <b>呪文ダメージ+2</b>
+	#elif ID == 'ICC_913':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#穢れし狂信者 : <b>聖なる盾</b><b>呪文ダメージ+1</b>
+	#elif ID == 'OG_082':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#コボルトの地霊呪痛死 : <b>呪文ダメージ+2</b>
+	#elif ID == 'SCH_245':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#筆記の執精 : [x]<b>呪文ダメージ+1</b><b>雄叫び:</b>___呪文を1つ<b>発見</b>する。
+	#elif ID == 'SCH_270':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#根源学の予習 : [x]<b>呪文ダメージ</b>を持つミニオンを1体<b>発見</b>する。自分が次に使用する<b>呪文ダメージ</b>を持つミニオンのコストが（1）減る。
+	#elif ID == 'SCH_273':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#ラス・フロストウィスパー : [x]自分のターンの終了時全ての敵に$1ダメージを与える<i>（<b>呪文ダメージ</b>によって__強化される）</i>。
+	#elif ID == 'SCH_530':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#代理鏡師 : [x]<b>雄叫び:</b>自分が<b>呪文ダメージ</b>を持っている場合このミニオンのコピーを1体召喚する。
+	#elif ID == 'TRL_312':
+	#	myCondition.append(['spellDamage','', ''])
+	#	#強仙師 : ダメージを受けている間は<b>呪文ダメージ+2</b>を得る。
 	return myCondition
 
 def	RogueCat_condition_playCard(game,ID):
@@ -352,30 +297,18 @@ def	RogueCat_condition_playCard(game,ID):
 		elif ID  == 'BT_255':
 			myCondition.append(['playCard','', 'help'])
 			#ケルサス・サンストライダー : [x]毎ターン、自分が使用する呪文のコストは3回目ごとに（0）になる。
-		elif ID  == 'BT_721':
-			myCondition.append(['playCard','', 'summon'])
-			#飛び散る腐汁 : [x]自分のターンの終了時このミニオンと同じ攻撃力・体力の腐汁を1体召喚する。
 		elif ID  == 'CFM_637':
 			myCondition.append(['playCard','havePirate(game)', 'summon'])
 			#海賊パッチーズ : [x]自分が海賊を手札から使用した後自分のデッキからこの____ミニオンを召喚する。
 		elif ID  == 'DAL_550':
 			myCondition.append(['playCard','', 'summon'])
 			#最下層ウーズ : [x]このミニオンがダメージを受けて生き延びた後このミニオンのコピーを1体召喚する。
-		elif ID  == 'DAL_553':
-			myCondition.append(['playCard','', 'summon'])
-			#悪い大噛み魔術師 : [x]自分のターンの終了時ランダムなコスト6のミニオン1体を召喚する。
-		elif ID  == 'DAL_558':
-			myCondition.append(['playCard','', 'spell'])
-			#大魔術師ヴァルゴス : [x]自分のターンの終了時自分がこのターンに使用した呪文1つを再使用する。<i>（対象はランダム）</i>
 		elif ID  == 'DAL_774':
 			myCondition.append(['playCard','', 'summon'])
 			#異境の乗騎売り : [x]自分が呪文を使う度ランダムなコスト3の__獣1体を召喚する。
 		elif ID  == 'DRG_056':
 			myCondition.append(['playCard','havePirate(game)', 'summon'])
 			#パラシュート・パイレート : [x]自分が海賊を手札から使用した後自分の手札から____このミニオンを召喚する。
-		elif ID  == 'DRG_091':
-			myCondition.append(['playCard','', ''])
-			#シュ＝マ : [x]自分のターンの終了時自分の陣地に1/1の「触手」を可能な限り召喚する。
 		elif ID  == 'EX1_076':
 			myCondition.append(['playCard','', ''])
 			#ポケットサイズの召喚師 : 毎ターン最初に手札から使用するミニオンのコストが（1）減る。
@@ -385,15 +318,9 @@ def	RogueCat_condition_playCard(game,ID):
 		elif ID  == 'EX1_509':
 			myCondition.append(['playCard','', ''])
 			#マーロックのタイドコーラー : [x]自分がマーロックを召喚する度___攻撃力+1を獲得する。
-		elif ID  == 'EX1_597':
-			myCondition.append(['playCard','', ''])
-			#インプ使い : [x]自分のターンの終了時このミニオンに1ダメージを与え1/1のインプを1体召喚する。
 		elif ID  == 'EX1_614':
 			myCondition.append(['playCard','', ''])
 			#ザヴィウス : [x]自分がカードを手札から使用した後2/1のサテュロスを1体召喚する。
-		elif ID  == 'FP1_013':
-			myCondition.append(['playCard','', ''])
-			#ケルスザード : [x]各ターンの終了時そのターンに死亡した味方のミニオン全てを召喚する。
 		elif ID  == 'GIL_620':
 			myCondition.append(['playCard','', ''])
 			#人形師ドリアン : [x]自分がミニオンを引く度、そのミニオンの1/1のコピーを1体召喚する。
@@ -424,23 +351,14 @@ def	RogueCat_condition_playCard(game,ID):
 		elif ID  == 'LOE_107':
 			myCondition.append(['playCard','NoMinion(game)', ''])
 			#不気味な像 : [x]戦場に他のミニオンがいると攻撃できない。
-		elif ID  == 'LOOT_394':
-			myCondition.append(['playCard','', ''])
-			#ワメキノコ : [x]自分のターンの終了時ランダムなコスト1のミニオン1体を召喚する。
-		elif ID  == 'LOOT_414':
-			myCondition.append(['playCard','', ''])
-			#記録保管大臣 : [x]自分のターンの終了時自分のデッキにある呪文1つを使用する。<i>__（対象はランダムに選択）</i>
 		elif ID  == 'NEW1_026':
-			myCondition.append(['playCard','', ''])
+			myCondition.append(['playCard','', 'summon'])
 			#ヴァイオレット・アイの講師 : [x]自分が呪文を使う度1/1のヴァイオレット・アイの徒弟を1体召喚する。
-		elif ID  == 'SCH_537':
-			myCondition.append(['playCard','', ''])
-			#魔術のトーテム : [x]自分のターンの終了時コスト（3）以下のランダムな呪文を1つ使用する。
 		elif ID  == 'TRL_507':
-			myCondition.append(['playCard','', ''])
+			myCondition.append(['playCard','', 'summon'])
 			#シャークフィンのファン : [x]自分のヒーローが攻撃した後1/1の海賊を1体召喚する。
 		elif ID  == 'ULD_286':
-			myCondition.append(['playCard','', ''])
+			myCondition.append(['playCard','haveMinion(game)', 'addCardDeck'])
 			#死の影 : [x]ミニオン1体を選択する。引かれた際そのコピー1体を召喚する「影」3枚を自分のデッキに混ぜる。
 		elif ID  == 'ULD_290':
 			myCondition.append(['playCard','haveMinion(game)', 'help'])

@@ -90,6 +90,9 @@ def RogueCat_Condition(game, card, target) -> list:
 	hisHeroRemainder=hisHeroHealth+hisTauntH-myAttack
 	myMinionRemainder=myMinionH
 	ID = card.id
+	# 呪文のターゲットになると特殊効果が発動するタイプの者がある
+	# 'AT_129'　フィヨラ・ライトベイン : <b>自分</b>がこのミニオンに対して呪文を使用する度<b>聖なる盾</b>を獲得する。
+
 	if card.type==CardType.HERO:
 		return myCondition
 	if '激励' in dscrpt:#ヒーローパワーを使うと発動する

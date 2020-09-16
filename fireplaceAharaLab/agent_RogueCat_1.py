@@ -25,10 +25,10 @@ def RogueCat_condition_deathrattle(game,ID):
 			myCondition.append(['deathrattle','', 'summon'])
 			#メカ・チビドラゴン : [x]<b>断末魔:</b>7/7の「メカ・ドラゴン」を__1体召喚する。
 		elif ID == 'BOT_084':
-			myCondition.append(['deathrattle','', 'addCardHand'])
+			myCondition.append(['deathrattle','', 'drawCard'])
 			#紫の煙霧 : [x]<b>断末魔</b>を持つランダムなカード2枚を自分の手札に追加する。
 		elif ID == 'BOT_102':
-			myCondition.append(['deathrattle','', 'addCardHand'])
+			myCondition.append(['deathrattle','', 'drawCard'])
 			#スパーク・ドリル : [x]<b>急襲</b><b>断末魔:</b><b>急襲</b>を持つ1/1の「スパーク」2体を自分の手札に追加する。
 		elif ID == 'BOT_267':
 			myCondition.append(['deathrattle','', 'summon'])
@@ -40,7 +40,7 @@ def RogueCat_condition_deathrattle(game,ID):
 			myCondition.append(['deathrattle','', 'summon'])
 			#自己増殖型メナス : [x]<b>超電磁</b><b>断末魔:</b>1/1の「マイクロロボ」を3体召喚する。
 		elif ID == 'BOT_401':
-			myCondition.append(['deathrattle','', 'addCardHand'])
+			myCondition.append(['deathrattle','', 'drawCard'])
 			#兵器化ピニャータ : [x]<b>断末魔:</b>ランダムな<b>レジェンド</b>ミニオン1体を自分の_____手札に追加する。
 		elif ID == 'BOT_424':
 			myCondition.append(['deathrattle','noDeck(game) and noHand(game) and noCharacter(game)', 'damageHero'])
