@@ -14,6 +14,10 @@ def main():
 	Human=Agent("Human",None,myClass=CardClass.MAGE)
 	StandardRandom=Agent("Standard",None) # Classを指定しないとHUNTER
 	
+
+	from agent_RogueCat import printAllRogueCards,RogueCatAI
+	printAllRogueCards()
+	#RogueCatPlayer=Agent("RogueCat",RogueCatAI,myClass=CardClass.ROGUE)
 	# モンテカルロによる読み切り
 	## Maya=Agent("Maya",None)
 
@@ -38,7 +42,7 @@ def main():
 	#AngryCatPlayer = Agent("AngryCat", AngryCatAI)
 
 	#ゲームプレイ
-	play_set_of_games(Human, StandardRandom, gameNumber=1, debugLog=True) 
+	#play_set_of_games(Human, RogueCatPlayer, gameNumber=1, debugLog=True) 
 	#ハンター縛りのデッキ（メカハンター）による対戦
 	#play_MechaHunterGames(StandardPlayer, AngryCatPlayer, gameNumber=1, debugLog=True)
 

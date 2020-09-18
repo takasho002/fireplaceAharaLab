@@ -510,3 +510,14 @@ def onWeapon(game):
 		if card.type == CardType.WEAPON:
 			return True
 	return False
+
+
+def summonMurloc(game):
+	#マーロックのカードを手に持っているか、または、マーロックを召喚する呪文を持っている（ここまで調べきれない）
+	player = game.current_player
+	for card in player.characters:
+		if card.race == Race.MURLOC:
+			return True
+		if 'マーロック' in card.data.descrption and '召喚' in card.data.descrption:
+			return True
+	return False
