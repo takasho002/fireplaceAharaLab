@@ -2,7 +2,7 @@ from hearthstone.enums import CardClass,BlockType, CardType ,PlayState, State
 from enum import IntEnum
 from fireplace.game import Game
 from fireplace.exceptions import GameOver
-
+import copy
 class myAction(object):#旧マヤ版Action  ActionValueとあわせて、Candidateと言う形で下に再構成した。
 	"""docstring for myAction"""
 	def __init__(self, _card,_type,_target=None):
@@ -45,8 +45,8 @@ class Node(object):
 		return retNode
 		pass
 	def expandChild(self,action):
-		self.expandedTree=execute_action(self.gameTree,action)
-		child=Node(self.expandedTree,action,self,get_valid_actions(self.expandedTree))
+		self.expandedTree=executeAction(self.gameTree,action)
+		child=Node(self.expandedTree,action,self,getCandidates(self.expandedTree))
 		self.childNodes.append(child)
 		return child
 	def choose_expanding_action(self):
@@ -218,7 +218,7 @@ class Candidate(object):
 #
 ##  getActionCandidates : utils version
 ##
-def getCandidates(mygame):
+def getCandidates(mygame,_getAllCandidates=False):
 	"""　"""
 	player = mygame.current_player
 	myCandidate = []
@@ -244,14 +244,23 @@ def getCandidates(mygame):
 				if character.can_attack(target):
 					myH=character.health
 					hisA=target.atk
-					if myH > hisA:
+					if (myH > hisA) or _getAllCandidates:
 						myCandidate.append(Candidate(character, type=BlockType.ATTACK, target=target))
+	if _getAllCandidates:
+		#この選択肢は「何もしない」選択肢ですが、
+		#ターンを終了することはできないので、
+		#エージェントの方でターンを終了してあげてください
+		myCandidate.append(Candidate(None,type=None))
+		pass
 	return myCandidate
 #
 #  executeAction
 #
 def executeAction(mygame,action: Candidate, debugLog=True):
 	"""　"""
+	if action.type is None:
+		return ExceptionPlay.VALID
+		pass
 	player=mygame.current_player
 	thisEntities= mygame.entities + mygame.hands
 	if debugLog:
